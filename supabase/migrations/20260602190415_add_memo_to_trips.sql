@@ -1,0 +1,1 @@
+alter table trips add column memo text;
