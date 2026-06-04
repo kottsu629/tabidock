@@ -235,8 +235,10 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* ダッシュボードのプレビューイメージ（カード模倣） */}
+        {/* ダッシュボードのプレビューイメージ（スマホ非表示） */}
+        <style>{`@media (max-width: 639px) { .lp-preview { display: none !important; } }`}</style>
         <div
+          className="lp-preview"
           style={{
             maxWidth: "680px",
             margin: "64px auto 0",
