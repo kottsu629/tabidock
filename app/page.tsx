@@ -211,7 +211,7 @@ export default function LandingPage() {
               {
                 emoji: '📋',
                 title: '旅行履歴を振り返り',
-                desc: '過去の旅行費用がいつでも確認できます。次の旅の予算計画にも役立てて。',
+                desc: '過去の旅行費用がいつでも確認できます。次の旅の予算計画にも役立てられます。',
                 color: '#fdf4ff', accent: '#a855f7',
               },
             ].map(feature => (
