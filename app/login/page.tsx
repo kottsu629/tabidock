@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import AuthLayout from '@/components/AuthLayout'
+import AuthButton from '@/components/AuthButton'
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -71,21 +72,7 @@ export default function LoginPage() {
         </div>
       )}
 
-      <button
-        onClick={handleLogin}
-        disabled={loading}
-        style={{
-          width: '100%', marginTop: '20px', padding: '13px',
-          background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-          border: 'none', borderRadius: '12px',
-          color: '#ffffff', fontSize: '0.95rem', fontWeight: 700,
-          cursor: loading ? 'not-allowed' : 'pointer',
-          opacity: loading ? 0.7 : 1,
-          boxShadow: '0 4px 20px rgba(99,102,241,0.4)',
-        }}
-      >
-        {loading ? 'ログイン中...' : 'ログイン'}
-      </button>
+      <AuthButton onClick={handleLogin} loading={loading} label="ログイン" loadingLabel="ログイン中..." />
 
       <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.85rem', color: '#64748b' }}>
         アカウントをお持ちでない方は{' '}
