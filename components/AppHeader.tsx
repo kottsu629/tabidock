@@ -9,52 +9,23 @@ type Props = {
 
 export default function AppHeader({ userName, onLogout }: Props) {
   return (
-    <header
-      style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #e2e8f0" }}
-    >
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 24px",
-          height: "60px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link href="/dashboard" style={{ textDecoration: "none" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "1.25rem" }}>✈️</span>
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: "1.1rem",
-                color: "#0f172a",
-                letterSpacing: "-0.02em",
-              }}
-            >
+    <header className="bg-white border-b border-slate-200">
+      <div className="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between">
+        <Link href="/dashboard" className="no-underline">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">✈️</span>
+            <span className="font-bold text-[1.1rem] text-slate-900 tracking-[-0.02em]">
               TripLog
             </span>
           </div>
         </Link>
 
         {userName && onLogout && (
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <span style={{ fontSize: "0.875rem", color: "#64748b" }}>
-              {userName}さん
-            </span>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-slate-500">{userName}さん</span>
             <button
               onClick={onLogout}
-              style={{
-                fontSize: "0.8rem",
-                color: "#64748b",
-                padding: "6px 14px",
-                border: "1px solid #e2e8f0",
-                borderRadius: "8px",
-                backgroundColor: "#ffffff",
-                cursor: "pointer",
-              }}
+              className="text-[0.8rem] text-slate-500 py-1.5 px-[14px] border border-slate-200 rounded-lg bg-white cursor-pointer hover:bg-slate-50 transition-colors"
             >
               ログアウト
             </button>

@@ -56,19 +56,14 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
       {/* ヘッダー */}
       <div className="flex justify-between items-center px-6 pt-6 pb-4 border-b border-gray-100">
         <div>
-          <h2
-            style={{ color: "#111827", fontSize: "1.25rem", fontWeight: 700 }}
-          >
-            旅行を追加
-          </h2>
-          <p style={{ color: "#6b7280", fontSize: "0.8rem", marginTop: "2px" }}>
+          <h2 className="text-gray-900 text-xl font-bold">旅行を追加</h2>
+          <p className="text-gray-500 text-[0.8rem] mt-0.5">
             旅行の基本情報を入力してください
           </p>
         </div>
         <button
           onClick={onClose}
-          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
-          style={{ color: "#9ca3af", fontSize: "1.25rem" }}
+          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition text-gray-400 text-xl"
         >
           ✕
         </button>
@@ -156,35 +151,29 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
             onChange={(e) => set("is_public", e.target.checked)}
             className="w-4 h-4 rounded accent-blue-500"
           />
-          <label
-            htmlFor="is_public"
-            style={{ color: "#374151", fontSize: "0.875rem" }}
-          >
+          <label htmlFor="is_public" className="text-gray-700 text-sm">
             この旅行を公開する
           </label>
         </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
-            <p style={{ color: "#dc2626", fontSize: "0.8rem" }}>{error}</p>
+            <p className="text-red-600 text-[0.8rem]">{error}</p>
           </div>
         )}
 
-        {/* フッター */}
         <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 mt-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2.5 text-sm font-medium rounded-xl border border-gray-200 hover:bg-gray-50 transition"
-            style={{ color: "#374151" }}
+            className="px-5 py-2.5 text-sm font-medium text-gray-700 rounded-xl border border-gray-200 hover:bg-gray-50 transition"
           >
             キャンセル
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="px-5 py-2.5 text-sm font-semibold rounded-xl transition disabled:opacity-50"
-            style={{ backgroundColor: "#2563eb", color: "#ffffff" }}
+            className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
           >
             {loading ? "保存中..." : "+ 追加する"}
           </button>

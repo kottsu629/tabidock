@@ -7,17 +7,8 @@ import Link from "next/link";
 import AuthLayout from "@/components/AuthLayout";
 import AuthButton from "@/components/AuthButton";
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  border: "1px solid rgba(255,255,255,0.15)",
-  borderRadius: "12px",
-  backgroundColor: "rgba(255,255,255,0.08)",
-  color: "#ffffff",
-  fontSize: "0.9rem",
-  outline: "none",
-  boxSizing: "border-box",
-};
+const inputClass =
+  "w-full py-3 px-4 border border-white/15 rounded-xl bg-white/[0.08] text-white text-[0.9rem] outline-none box-border";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,30 +34,18 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <h1
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: 800,
-          color: "#ffffff",
-          marginBottom: "6px",
-          letterSpacing: "-0.03em",
-        }}
-      >
+      <h1 className="text-2xl font-extrabold text-white mb-1.5 tracking-[-0.03em]">
         おかえりなさい
       </h1>
-      <p
-        style={{ fontSize: "0.875rem", color: "#94a3b8", marginBottom: "28px" }}
-      >
-        TripLog にログインする
-      </p>
+      <p className="text-sm text-slate-400 mb-7">TripLog にログインする</p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div className="flex flex-col gap-3">
         <input
           type="email"
           placeholder="メールアドレス"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={inputStyle}
+          className={inputClass}
         />
         <input
           type="password"
@@ -74,23 +53,13 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-          style={inputStyle}
+          className={inputClass}
         />
       </div>
 
       {error && (
-        <div
-          style={{
-            marginTop: "12px",
-            padding: "10px 14px",
-            backgroundColor: "rgba(239,68,68,0.15)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            borderRadius: "10px",
-          }}
-        >
-          <p style={{ fontSize: "0.8rem", color: "#fca5a5", margin: 0 }}>
-            {error}
-          </p>
+        <div className="mt-3 px-[14px] py-[10px] bg-red-500/15 border border-red-500/30 rounded-[10px]">
+          <p className="text-[0.8rem] text-red-300 m-0">{error}</p>
         </div>
       )}
 
@@ -101,19 +70,9 @@ export default function LoginPage() {
         loadingLabel="ログイン中..."
       />
 
-      <p
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-          fontSize: "0.85rem",
-          color: "#64748b",
-        }}
-      >
+      <p className="text-center mt-5 text-[0.85rem] text-slate-500">
         アカウントをお持ちでない方は{" "}
-        <Link
-          href="/signup"
-          style={{ color: "#a5b4fc", textDecoration: "none", fontWeight: 600 }}
-        >
+        <Link href="/signup" className="text-indigo-300 no-underline font-semibold">
           新規登録
         </Link>
       </p>

@@ -6,87 +6,22 @@ type Props = {
 
 export default function AuthLayout({ children }: Props) {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(160deg, #0f172a 0%, #1e1b4b 40%, #312e81 70%, #4c1d95 100%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-        position: "relative",
-        overflow: "hidden",
-        fontFamily: "var(--font-geist-sans), -apple-system, sans-serif",
-      }}
-    >
+    <div className="min-h-screen bg-[linear-gradient(160deg,#0f172a_0%,#1e1b4b_40%,#312e81_70%,#4c1d95_100%)] flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* 装飾円（右上） */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-100px",
-          right: "-100px",
-          width: "500px",
-          height: "500px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(139,92,246,0.25) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
+      <div className="absolute -top-[100px] -right-[100px] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.25)_0%,transparent_70%)] pointer-events-none" />
       {/* 装飾円（左下） */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-80px",
-          left: "-80px",
-          width: "400px",
-          height: "400px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
+      <div className="absolute -bottom-[80px] -left-[80px] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.2)_0%,transparent_70%)] pointer-events-none" />
 
       {/* ロゴ */}
-      <Link
-        href="/"
-        style={{
-          textDecoration: "none",
-          marginBottom: "40px",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-        }}
-      >
-        <span style={{ fontSize: "1.5rem" }}>✈️</span>
-        <span
-          style={{
-            fontWeight: 800,
-            fontSize: "1.25rem",
-            color: "#ffffff",
-            letterSpacing: "-0.03em",
-          }}
-        >
+      <Link href="/" className="no-underline mb-10 flex items-center gap-2">
+        <span className="text-2xl">✈️</span>
+        <span className="font-extrabold text-[1.25rem] text-white tracking-[-0.03em]">
           TripLog
         </span>
       </Link>
 
       {/* ガラスカード */}
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "400px",
-          backgroundColor: "rgba(255,255,255,0.07)",
-          border: "1px solid rgba(255,255,255,0.12)",
-          borderRadius: "20px",
-          padding: "36px",
-          backdropFilter: "blur(20px)",
-          position: "relative",
-        }}
-      >
+      <div className="w-full max-w-[400px] bg-white/[0.07] border border-white/[0.12] rounded-[20px] p-9 backdrop-blur-[20px] relative">
         {children}
       </div>
     </div>

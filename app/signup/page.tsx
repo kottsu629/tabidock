@@ -7,27 +7,10 @@ import Link from "next/link";
 import AuthLayout from "@/components/AuthLayout";
 import AuthButton from "@/components/AuthButton";
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  border: "1px solid rgba(255,255,255,0.15)",
-  borderRadius: "12px",
-  backgroundColor: "rgba(255,255,255,0.08)",
-  color: "#ffffff",
-  fontSize: "0.9rem",
-  outline: "none",
-  boxSizing: "border-box",
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "0.75rem",
-  fontWeight: 600,
-  color: "#94a3b8",
-  marginBottom: "6px",
-  letterSpacing: "0.05em",
-  textTransform: "uppercase",
-};
+const inputClass =
+  "w-full py-3 px-4 border border-white/15 rounded-xl bg-white/[0.08] text-white text-[0.9rem] outline-none box-border";
+const labelClass =
+  "block text-[0.75rem] font-semibold text-slate-400 mb-1.5 uppercase tracking-[0.05em]";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -62,87 +45,53 @@ export default function SignupPage() {
 
   return (
     <AuthLayout>
-      <div
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "6px",
-          backgroundColor: "rgba(99,102,241,0.2)",
-          border: "1px solid rgba(99,102,241,0.35)",
-          borderRadius: "100px",
-          padding: "4px 12px",
-          fontSize: "0.75rem",
-          color: "#a5b4fc",
-          fontWeight: 500,
-          marginBottom: "16px",
-        }}
-      >
+      <div className="inline-flex items-center gap-1.5 bg-indigo-500/20 border border-indigo-500/35 rounded-full py-1 px-3 text-[0.75rem] text-indigo-300 font-medium mb-4">
         ✨ 登録無料
       </div>
 
-      <h1
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: 800,
-          color: "#ffffff",
-          marginBottom: "6px",
-          letterSpacing: "-0.03em",
-        }}
-      >
+      <h1 className="text-2xl font-extrabold text-white mb-1.5 tracking-[-0.03em]">
         アカウントを作成
       </h1>
-      <p
-        style={{ fontSize: "0.875rem", color: "#94a3b8", marginBottom: "28px" }}
-      >
+      <p className="text-sm text-slate-400 mb-7">
         TripLog で旅の記録をはじめよう
       </p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div className="flex flex-col gap-3">
         <div>
-          <label style={labelStyle}>ニックネーム</label>
+          <label className={labelClass}>ニックネーム</label>
           <input
             type="text"
             placeholder="例：たろう"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            style={inputStyle}
+            className={inputClass}
           />
         </div>
         <div>
-          <label style={labelStyle}>メールアドレス</label>
+          <label className={labelClass}>メールアドレス</label>
           <input
             type="email"
             placeholder="example@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={inputStyle}
+            className={inputClass}
           />
         </div>
         <div>
-          <label style={labelStyle}>パスワード</label>
+          <label className={labelClass}>パスワード</label>
           <input
             type="password"
             placeholder="8文字以上"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={inputStyle}
+            className={inputClass}
           />
         </div>
       </div>
 
       {error && (
-        <div
-          style={{
-            marginTop: "12px",
-            padding: "10px 14px",
-            backgroundColor: "rgba(239,68,68,0.15)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            borderRadius: "10px",
-          }}
-        >
-          <p style={{ fontSize: "0.8rem", color: "#fca5a5", margin: 0 }}>
-            {error}
-          </p>
+        <div className="mt-3 px-[14px] py-[10px] bg-red-500/15 border border-red-500/30 rounded-[10px]">
+          <p className="text-[0.8rem] text-red-300 m-0">{error}</p>
         </div>
       )}
 
@@ -153,19 +102,9 @@ export default function SignupPage() {
         loadingLabel="登録中..."
       />
 
-      <p
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-          fontSize: "0.85rem",
-          color: "#64748b",
-        }}
-      >
+      <p className="text-center mt-5 text-[0.85rem] text-slate-500">
         すでにアカウントをお持ちの方は{" "}
-        <Link
-          href="/login"
-          style={{ color: "#a5b4fc", textDecoration: "none", fontWeight: 600 }}
-        >
+        <Link href="/login" className="text-indigo-300 no-underline font-semibold">
           ログイン
         </Link>
       </p>

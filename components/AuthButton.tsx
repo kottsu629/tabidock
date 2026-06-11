@@ -15,20 +15,7 @@ export default function AuthButton({
     <button
       onClick={onClick}
       disabled={loading}
-      style={{
-        width: "100%",
-        marginTop: "20px",
-        padding: "13px",
-        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-        border: "none",
-        borderRadius: "12px",
-        color: "#ffffff",
-        fontSize: "0.95rem",
-        fontWeight: 700,
-        cursor: loading ? "not-allowed" : "pointer",
-        opacity: loading ? 0.7 : 1,
-        boxShadow: "0 4px 20px rgba(99,102,241,0.4)",
-      }}
+      className="w-full mt-5 py-[13px] bg-gradient-to-br from-indigo-500 to-violet-500 border-none rounded-xl text-white text-[0.95rem] font-bold shadow-[0_4px_20px_rgba(99,102,241,0.4)] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
     >
       {loading ? loadingLabel : label}
     </button>
