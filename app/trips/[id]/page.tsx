@@ -1,156 +1,40 @@
-"use client";
+import { redirect } from "next/navigation";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
+import TripDetailContainer from "./container";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
-import { supabase } from "@/lib/supabase";
-import AppHeader from "@/components/AppHeader";
-import TripHeaderCard from "@/components/TripHeaderCard";
-import ExpenseForm from "@/components/ExpenseForm";
-import ExpenseList from "@/components/ExpenseList";
+export default async function TripDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
 
-type Trip = {
-  id: string;
-  title: string;
-  destination: string;
-  area: string;
-  start_date: string;
-  end_date: string;
-  total_cost: number;
-  is_public: boolean;
-};
-
-type Participant = {
-  id: string;
-  trip_id: string;
-  name: string;
-};
-
-type Expense = {
-  id: string;
-  category: string;
-  title: string;
-  amount: number;
-  participant_id: string | null;
-};
-
-export default function TripDetailPage() {
-  const { id } = useParams<{ id: string }>();
-  const router = useRouter();
-  const [userName, setUserName] = useState("");
-  const [trip, setTrip] = useState<Trip | null>(null);
-  const [participants, setParticipants] = useState<Participant[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchExpenses = async () => {
-    const { data } = await supabase
-      .from("expenses")
-      .select("*")
-      .eq("trip_id", id)
-      .order("category");
-    setExpenses(data ?? []);
-  };
-
-  const fetchParticipants = async () => {
-    const { data } = await supabase
-      .from("participants")
-      .select("*")
-      .eq("trip_id", id)
-      .order("created_at");
-    setParticipants(data ?? []);
-  };
-
-  const fetchTrip = async () => {
-    const { data } = await supabase
-      .from("trips")
-      .select("*")
-      .eq("id", id)
-      .single();
-    return data as Trip | null;
-  };
-
-  useEffect(() => {
-    const init = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/login");
-        return;
-      }
-
-      const { data: userData } = await supabase
-        .from("users")
-        .select("name")
-        .eq("id", user.id)
-        .single();
-      if (userData) setUserName(userData.name);
-
-      const [tripData] = await Promise.all([
-        fetchTrip(),
-        fetchExpenses(),
-        fetchParticipants(),
-      ]);
-      if (!tripData) {
-        router.push("/dashboard");
-        return;
-      }
-      setTrip(tripData);
-      setLoading(false);
-    };
-    init();
-  }, [id]);
-
-  const refresh = async () => {
-    const [tripData] = await Promise.all([
-      fetchTrip(),
-      fetchExpenses(),
-      fetchParticipants(),
+  const [{ data: userData }, { data: trip }, { data: participants }, { data: expenses }] =
+    await Promise.all([
+      supabase.from("users").select("name").eq("id", user.id).single(),
+      supabase.from("trips").select("*").eq("id", id).single(),
+      supabase
+        .from("participants")
+        .select("*")
+        .eq("trip_id", id)
+        .order("created_at"),
+      supabase.from("expenses").select("*").eq("trip_id", id).order("category"),
     ]);
-    if (tripData) setTrip(tripData);
-  };
 
-  const handleDeleteExpense = async (expenseId: string) => {
-    await supabase.from("expenses").delete().eq("id", expenseId);
-    await refresh();
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push("/login");
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <p className="text-slate-400">読み込み中...</p>
-      </div>
-    );
-  }
-
-  if (!trip) return null;
+  if (!trip) redirect("/dashboard");
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AppHeader userName={userName} onLogout={handleLogout} />
-
-      <main className="max-w-[800px] mx-auto px-6 py-8">
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-1.5 text-sm text-slate-500 no-underline mb-6"
-        >
-          ← 旅行一覧へ戻る
-        </Link>
-
-        <TripHeaderCard trip={trip} participants={participants} expenses={expenses} />
-        <ExpenseForm tripId={id} participants={participants} onAdded={refresh} />
-        <ExpenseList
-          expenses={expenses}
-          participants={participants}
-          onDelete={handleDeleteExpense}
-        />
-      </main>
-    </div>
+    <TripDetailContainer
+      tripId={id}
+      initialUserName={userData?.name ?? ""}
+      initialTrip={trip}
+      initialParticipants={participants ?? []}
+      initialExpenses={expenses ?? []}
+    />
   );
 }

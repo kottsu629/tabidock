@@ -24,7 +24,11 @@ type Props = {
   expenses: Expense[];
 };
 
-export default function TripHeaderCard({ trip, participants, expenses }: Props) {
+export default function TripHeaderCard({
+  trip,
+  participants,
+  expenses,
+}: Props) {
   const sharedTotal = expenses
     .filter((e) => e.participant_id === null)
     .reduce((s, e) => s + e.amount, 0);
@@ -60,7 +64,7 @@ export default function TripHeaderCard({ trip, participants, expenses }: Props) 
           </div>
         </div>
 
-        {totals.length > 0 && (
+        {totals.length > 1 && (
           <div className="flex gap-3 flex-wrap">
             {totals.map((p) => (
               <div
