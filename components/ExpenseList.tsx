@@ -5,18 +5,29 @@ type Expense = {
   category: string;
   title: string;
   amount: number;
+  participant_id: string | null;
+};
+
+type Participant = {
+  id: string;
+  trip_id: string;
+  name: string;
 };
 
 type Props = {
   expenses: Expense[];
+  participants: Participant[];
   onDelete: (id: string) => void;
 };
 
-export default function ExpenseList({ expenses, onDelete }: Props) {
+export default function ExpenseList({ expenses, participants, onDelete }: Props) {
   const grouped = CATEGORIES.reduce<Record<string, Expense[]>>((acc, cat) => {
     acc[cat] = expenses.filter((e) => e.category === cat);
     return acc;
   }, {});
+
+  const participantName = (id: string | null) =>
+    id ? participants.find((p) => p.id === id)?.name ?? "?" : "共有";
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
@@ -59,7 +70,12 @@ export default function ExpenseList({ expenses, onDelete }: Props) {
                     key={exp.id}
                     className="px-6 py-3 flex items-center justify-between border-b border-slate-50"
                   >
-                    <span className="text-sm text-gray-700">{exp.title}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-700">{exp.title}</span>
+                      <span className="text-[0.7rem] text-slate-400 bg-slate-100 rounded-[6px] px-1.5 py-0.5">
+                        {exp.participant_id ? "👤" : "🤝"} {participantName(exp.participant_id)}
+                      </span>
+                    </div>
                     <div className="flex items-center gap-4">
                       <span className="text-sm font-semibold text-slate-900">
                         ¥{exp.amount.toLocaleString()}

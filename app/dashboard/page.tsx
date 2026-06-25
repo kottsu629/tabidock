@@ -16,8 +16,8 @@ type Trip = {
   start_date: string;
   end_date: string;
   total_cost: number;
-  num_people: number;
   is_public: boolean;
+  participants: { count: number }[];
 };
 
 export default function DashboardPage() {
@@ -33,7 +33,7 @@ export default function DashboardPage() {
   const fetchTrips = async (uid: string) => {
     const { data } = await supabase
       .from("trips")
-      .select("*")
+      .select("*, participants(count)")
       .eq("user_id", uid)
       .order("start_date", { ascending: false });
     if (data) setTrips(data);

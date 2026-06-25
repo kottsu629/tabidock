@@ -16,9 +16,14 @@ type Trip = {
   area: string;
   start_date: string;
   end_date: string;
-  num_people: number;
   total_cost: number;
   is_public: boolean;
+};
+
+type Participant = {
+  id: string;
+  trip_id: string;
+  name: string;
 };
 
 type Expense = {
@@ -26,6 +31,7 @@ type Expense = {
   category: string;
   title: string;
   amount: number;
+  participant_id: string | null;
 };
 
 export default function TripDetailPage() {
@@ -33,6 +39,7 @@ export default function TripDetailPage() {
   const router = useRouter();
   const [userName, setUserName] = useState("");
   const [trip, setTrip] = useState<Trip | null>(null);
+  const [participants, setParticipants] = useState<Participant[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,6 +50,15 @@ export default function TripDetailPage() {
       .eq("trip_id", id)
       .order("category");
     setExpenses(data ?? []);
+  };
+
+  const fetchParticipants = async () => {
+    const { data } = await supabase
+      .from("participants")
+      .select("*")
+      .eq("trip_id", id)
+      .order("created_at");
+    setParticipants(data ?? []);
   };
 
   const fetchTrip = async () => {
@@ -71,7 +87,11 @@ export default function TripDetailPage() {
         .single();
       if (userData) setUserName(userData.name);
 
-      const [tripData] = await Promise.all([fetchTrip(), fetchExpenses()]);
+      const [tripData] = await Promise.all([
+        fetchTrip(),
+        fetchExpenses(),
+        fetchParticipants(),
+      ]);
       if (!tripData) {
         router.push("/dashboard");
         return;
@@ -83,7 +103,11 @@ export default function TripDetailPage() {
   }, [id]);
 
   const refresh = async () => {
-    const [tripData] = await Promise.all([fetchTrip(), fetchExpenses()]);
+    const [tripData] = await Promise.all([
+      fetchTrip(),
+      fetchExpenses(),
+      fetchParticipants(),
+    ]);
     if (tripData) setTrip(tripData);
   };
 
@@ -119,9 +143,13 @@ export default function TripDetailPage() {
           ← 旅行一覧へ戻る
         </Link>
 
-        <TripHeaderCard trip={trip} />
-        <ExpenseForm tripId={id} onAdded={refresh} />
-        <ExpenseList expenses={expenses} onDelete={handleDeleteExpense} />
+        <TripHeaderCard trip={trip} participants={participants} expenses={expenses} />
+        <ExpenseForm tripId={id} participants={participants} onAdded={refresh} />
+        <ExpenseList
+          expenses={expenses}
+          participants={participants}
+          onDelete={handleDeleteExpense}
+        />
       </main>
     </div>
   );

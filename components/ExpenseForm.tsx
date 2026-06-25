@@ -4,18 +4,32 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { CATEGORIES, CATEGORY_META } from "@/lib/categories";
 
+type Participant = {
+  id: string;
+  trip_id: string;
+  name: string;
+};
+
 type Props = {
   tripId: string;
+  participants: Participant[];
   onAdded: () => void;
 };
+
+const SHARED = "shared";
 
 const inputClass =
   "border border-slate-200 rounded-[10px] px-[14px] py-[9px] text-sm text-slate-900 bg-slate-50 outline-none";
 const labelClass =
   "text-[0.7rem] font-semibold text-slate-400 uppercase tracking-[0.05em]";
 
-export default function ExpenseForm({ tripId, onAdded }: Props) {
-  const [form, setForm] = useState({ category: "交通費", title: "", amount: "" });
+export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
+  const [form, setForm] = useState({
+    category: "交通費",
+    title: "",
+    amount: "",
+    participant: SHARED,
+  });
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState("");
 
@@ -27,6 +41,7 @@ export default function ExpenseForm({ tripId, onAdded }: Props) {
       category: form.category,
       title: form.title,
       amount: Number(form.amount),
+      participant_id: form.participant === SHARED ? null : form.participant,
     });
     setAdding(false);
     if (error) {
@@ -43,6 +58,22 @@ export default function ExpenseForm({ tripId, onAdded }: Props) {
       <form onSubmit={handleSubmit}>
         <div className="flex gap-[10px] flex-wrap items-end">
           <div className="flex flex-col gap-1.5">
+            <label className={labelClass}>誰の費用か</label>
+            <select
+              value={form.participant}
+              onChange={(e) => setForm((p) => ({ ...p, participant: e.target.value }))}
+              className={inputClass}
+            >
+              <option value={SHARED}>🤝 共有（全員で割る）</option>
+              {participants.map((p) => (
+                <option key={p.id} value={p.id}>
+                  👤 {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
             <label className={labelClass}>カテゴリ</label>
             <select
               value={form.category}
@@ -50,7 +81,7 @@ export default function ExpenseForm({ tripId, onAdded }: Props) {
               className={inputClass}
             >
               {CATEGORIES.map((c) => (
-                <option key={c}>
+                <option key={c} value={c}>
                   {CATEGORY_META[c].emoji} {c}
                 </option>
               ))}
@@ -76,6 +107,7 @@ export default function ExpenseForm({ tripId, onAdded }: Props) {
               placeholder="0"
               required
               min={0}
+              step={100}
               value={form.amount}
               onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))}
               className={`${inputClass} w-full`}

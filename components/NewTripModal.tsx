@@ -22,14 +22,25 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
     area: "",
     start_date: "",
     end_date: "",
-    num_people: 1,
     is_public: true,
   });
+  const [participantNames, setParticipantNames] = useState([""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const set = (key: string, value: string | number | boolean) =>
     setForm((prev) => ({ ...prev, [key]: value }));
+
+  const setParticipantName = (index: number, value: string) =>
+    setParticipantNames((prev) =>
+      prev.map((name, i) => (i === index ? value : name)),
+    );
+
+  const addParticipant = () =>
+    setParticipantNames((prev) => [...prev, ""]);
+
+  const removeParticipant = (index: number) =>
+    setParticipantNames((prev) => prev.filter((_, i) => i !== index));
 
   const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault();
@@ -37,14 +48,31 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
       setError("終了日は開始日以降にしてください");
       return;
     }
+    const names = participantNames.map((n) => n.trim()).filter(Boolean);
+    if (names.length === 0) {
+      setError("参加者を1人以上入力してください");
+      return;
+    }
     setLoading(true);
-    const { error } = await supabase.from("trips").insert({
-      ...form,
-      user_id: userId,
-    });
-    setLoading(false);
+    const { data: trip, error } = await supabase
+      .from("trips")
+      .insert({
+        ...form,
+        user_id: userId,
+      })
+      .select()
+      .single();
     if (error) {
+      setLoading(false);
       setError(error.message);
+      return;
+    }
+    const { error: participantsError } = await supabase
+      .from("participants")
+      .insert(names.map((name) => ({ trip_id: trip.id, name })));
+    setLoading(false);
+    if (participantsError) {
+      setError(participantsError.message);
       return;
     }
     onCreated();
@@ -132,15 +160,37 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
         </div>
 
         <div>
-          <label className={labelClass}>人数</label>
-          <input
-            type="number"
-            required
-            min={1}
-            value={form.num_people}
-            onChange={(e) => set("num_people", Number(e.target.value))}
-            className={inputClass}
-          />
+          <label className={labelClass}>参加者</label>
+          <div className="space-y-2">
+            {participantNames.map((name, i) => (
+              <div key={i} className="flex gap-2">
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setParticipantName(i, e.target.value)}
+                  className={inputClass}
+                  placeholder={`参加者${i + 1}`}
+                />
+                {participantNames.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeParticipant(i)}
+                    className="px-3 text-gray-400 hover:text-red-500 transition"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={addParticipant}
+            className="mt-2 text-sm text-blue-600 font-medium hover:text-blue-700 transition"
+          >
+            + 参加者を追加
+          </button>
         </div>
 
         <div className="flex items-center gap-2 py-1">

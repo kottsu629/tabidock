@@ -8,8 +8,8 @@ type Trip = {
   start_date: string;
   end_date: string;
   total_cost: number;
-  num_people: number;
   is_public: boolean;
+  participants: { count: number }[];
 };
 
 type Props = {
@@ -35,7 +35,7 @@ export default function TripCard({ trip, onDelete }: Props) {
               {trip.start_date} 〜 {trip.end_date}
             </span>
             <span className="ml-auto bg-slate-100 rounded-[6px] px-2 py-0.5 text-slate-500">
-              👥 {trip.num_people}人
+              👥 {trip.participants[0]?.count ?? 0}人
             </span>
           </div>
           <div className="border-t border-slate-100 pt-[14px] flex justify-between items-baseline">
