@@ -36,8 +36,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
       prev.map((name, i) => (i === index ? value : name)),
     );
 
-  const addParticipant = () =>
-    setParticipantNames((prev) => [...prev, ""]);
+  const addParticipant = () => setParticipantNames((prev) => [...prev, ""]);
 
   const removeParticipant = (index: number) =>
     setParticipantNames((prev) => prev.filter((_, i) => i !== index));
