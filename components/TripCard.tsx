@@ -2,6 +2,7 @@ import Link from "next/link";
 
 type Trip = {
   id: string;
+  user_id: string;
   title: string;
   destination: string;
   area: string;
@@ -14,17 +15,25 @@ type Trip = {
 
 type Props = {
   trip: Trip;
+  userId: string;
   onDelete: (trip: Trip) => void;
 };
 
-export default function TripCard({ trip, onDelete }: Props) {
+export default function TripCard({ trip, userId, onDelete }: Props) {
+  const isOwner = trip.user_id === userId;
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden transition-[box-shadow,transform] duration-150 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5">
       <Link href={`/trips/${trip.id}`} className="no-underline block">
         <div className="h-1 bg-indigo-500" />
         <div className="p-5">
-          <h2 className="text-base font-bold text-slate-900 mb-1">
+          <h2 className="text-base font-bold text-slate-900 mb-1 flex items-center gap-1.5">
             {trip.title}
+            {!isOwner && (
+              <span className="text-[0.65rem] font-semibold text-indigo-500 bg-indigo-50 rounded-[6px] px-1.5 py-0.5">
+                共有中
+              </span>
+            )}
           </h2>
           <p className="text-[0.8rem] text-slate-500 mb-3">
             📍 {trip.destination}・{trip.area}
@@ -46,14 +55,16 @@ export default function TripCard({ trip, onDelete }: Props) {
           </div>
         </div>
       </Link>
-      <div className="px-5 pb-4 flex justify-end">
-        <button
-          onClick={() => onDelete(trip)}
-          className="text-xs text-slate-400 border-none bg-transparent cursor-pointer px-2 py-1 rounded-[6px] hover:text-red-500 hover:bg-red-50 transition-colors"
-        >
-          🗑 削除
-        </button>
-      </div>
+      {isOwner && (
+        <div className="px-5 pb-4 flex justify-end">
+          <button
+            onClick={() => onDelete(trip)}
+            className="text-xs text-slate-400 border-none bg-transparent cursor-pointer px-2 py-1 rounded-[6px] hover:text-red-500 hover:bg-red-50 transition-colors"
+          >
+            🗑 削除
+          </button>
+        </div>
+      )}
     </div>
   );
 }

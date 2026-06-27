@@ -7,6 +7,7 @@ import DashboardPresentation from "./presentation";
 
 type Trip = {
   id: string;
+  user_id: string;
   title: string;
   destination: string;
   area: string;
@@ -36,11 +37,21 @@ export default function DashboardContainer({
   const [deleting, setDeleting] = useState(false);
 
   const fetchTrips = async () => {
-    const { data } = await supabase
+    const { data: memberRows } = await supabase
+      .from("trip_members")
+      .select("trip_id")
+      .eq("user_id", userId);
+    const memberTripIds = (memberRows ?? []).map((r) => r.trip_id);
+
+    const tripsQuery = supabase
       .from("trips")
       .select("*, participants(count)")
-      .eq("user_id", userId)
       .order("start_date", { ascending: false });
+
+    const { data } =
+      memberTripIds.length > 0
+        ? await tripsQuery.or(`user_id.eq.${userId},id.in.(${memberTripIds.join(",")})`)
+        : await tripsQuery.eq("user_id", userId);
     if (data) setTrips(data);
   };
 

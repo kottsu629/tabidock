@@ -14,7 +14,7 @@ export default async function TripDetailPage({
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const [{ data: userData }, { data: trip }, { data: participants }, { data: expenses }] =
+  const [{ data: userData }, { data: trip }, { data: participants }, { data: expenses }, { data: members }] =
     await Promise.all([
       supabase.from("users").select("name").eq("id", user.id).single(),
       supabase.from("trips").select("*").eq("id", id).single(),
@@ -24,6 +24,11 @@ export default async function TripDetailPage({
         .eq("trip_id", id)
         .order("created_at"),
       supabase.from("expenses").select("*").eq("trip_id", id).order("category"),
+      supabase
+        .from("trip_members")
+        .select("*, users(name, email)")
+        .eq("trip_id", id)
+        .order("created_at"),
     ]);
 
   if (!trip) redirect("/dashboard");
@@ -31,10 +36,12 @@ export default async function TripDetailPage({
   return (
     <TripDetailContainer
       tripId={id}
+      userId={user.id}
       initialUserName={userData?.name ?? ""}
       initialTrip={trip}
       initialParticipants={participants ?? []}
       initialExpenses={expenses ?? []}
+      initialMembers={members ?? []}
     />
   );
 }

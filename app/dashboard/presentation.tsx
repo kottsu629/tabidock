@@ -5,6 +5,7 @@ import TripCard from "@/components/TripCard";
 
 type Trip = {
   id: string;
+  user_id: string;
   title: string;
   destination: string;
   area: string;
@@ -83,7 +84,7 @@ export default function DashboardPresentation({
         ) : (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
             {trips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} onDelete={onDeleteClick} />
+              <TripCard key={trip.id} trip={trip} userId={userId} onDelete={onDeleteClick} />
             ))}
           </div>
         )}

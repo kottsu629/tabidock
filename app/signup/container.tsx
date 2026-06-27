@@ -27,7 +27,7 @@ export default function SignupContainer() {
     }
     const { error: insertError } = await supabase
       .from("users")
-      .insert({ id: data.user.id, name });
+      .insert({ id: data.user.id, name, email });
     if (insertError) {
       setError(insertError.message);
       setLoading(false);
