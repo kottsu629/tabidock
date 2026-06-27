@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import TripDetailPresentation from "./presentation";
 
@@ -59,7 +60,8 @@ export default function TripDetailContainer({
   const router = useRouter();
   const [userName] = useState(initialUserName);
   const [trip, setTrip] = useState<Trip>(initialTrip);
-  const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
+  const [participants, setParticipants] =
+    useState<Participant[]>(initialParticipants);
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
   const [members, setMembers] = useState<Member[]>(initialMembers);
   const [shareError, setShareError] = useState("");
@@ -67,25 +69,29 @@ export default function TripDetailContainer({
   const isOwner = trip.user_id === userId;
 
   const refresh = async () => {
-    const [{ data: tripData }, { data: expensesData }, { data: participantsData }, { data: membersData }] =
-      await Promise.all([
-        supabase.from("trips").select("*").eq("id", tripId).single(),
-        supabase
-          .from("expenses")
-          .select("*")
-          .eq("trip_id", tripId)
-          .order("category"),
-        supabase
-          .from("participants")
-          .select("*")
-          .eq("trip_id", tripId)
-          .order("created_at"),
-        supabase
-          .from("trip_members")
-          .select("*, users(name, email)")
-          .eq("trip_id", tripId)
-          .order("created_at"),
-      ]);
+    const [
+      { data: tripData },
+      { data: expensesData },
+      { data: participantsData },
+      { data: membersData },
+    ] = await Promise.all([
+      supabase.from("trips").select("*").eq("id", tripId).single(),
+      supabase
+        .from("expenses")
+        .select("*")
+        .eq("trip_id", tripId)
+        .order("category"),
+      supabase
+        .from("participants")
+        .select("*")
+        .eq("trip_id", tripId)
+        .order("created_at"),
+      supabase
+        .from("trip_members")
+        .select("*, users(name, email)")
+        .eq("trip_id", tripId)
+        .order("created_at"),
+    ]);
     if (tripData) setTrip(tripData);
     setExpenses(expensesData ?? []);
     setParticipants(participantsData ?? []);
@@ -97,22 +103,42 @@ export default function TripDetailContainer({
       .channel(`trip-${tripId}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "expenses", filter: `trip_id=eq.${tripId}` },
+        {
+          event: "*",
+          schema: "public",
+          table: "expenses",
+          filter: `trip_id=eq.${tripId}`,
+        },
         refresh,
       )
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "participants", filter: `trip_id=eq.${tripId}` },
+        {
+          event: "*",
+          schema: "public",
+          table: "participants",
+          filter: `trip_id=eq.${tripId}`,
+        },
         refresh,
       )
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "trips", filter: `id=eq.${tripId}` },
+        {
+          event: "*",
+          schema: "public",
+          table: "trips",
+          filter: `id=eq.${tripId}`,
+        },
         refresh,
       )
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "trip_members", filter: `trip_id=eq.${tripId}` },
+        {
+          event: "*",
+          schema: "public",
+          table: "trip_members",
+          filter: `trip_id=eq.${tripId}`,
+        },
         refresh,
       )
       .subscribe();
@@ -135,30 +161,27 @@ export default function TripDetailContainer({
 
   const handleShare = async (email: string) => {
     setShareError("");
-    const { data: targetUser, error: lookupError } = await supabase
-      .from("users")
-      .select("id")
-      .eq("email", email)
-      .maybeSingle();
-    if (lookupError) {
-      setShareError(lookupError.message);
+    const { data, error } = await supabase.functions.invoke(
+      "share-trip-invite",
+      {
+        body: { tripId, email },
+      },
+    );
+    if (error) {
+      let message = error.message;
+      if (error instanceof FunctionsHttpError) {
+        try {
+          const body = await error.context.json();
+          message = body?.debug ? JSON.stringify(body) : body?.error ?? message;
+        } catch {
+          // レスポンスボディがJSONでない場合は元のメッセージのまま
+        }
+      }
+      setShareError(message);
       return;
     }
-    if (!targetUser) {
-      setShareError("このメールアドレスのユーザーが見つかりません");
-      return;
-    }
-    if (targetUser.id === userId) {
-      setShareError("自分自身は追加できません");
-      return;
-    }
-    const { error: insertError } = await supabase
-      .from("trip_members")
-      .insert({ trip_id: tripId, user_id: targetUser.id });
-    if (insertError) {
-      setShareError(
-        insertError.code === "23505" ? "すでに共有されています" : insertError.message,
-      );
+    if (data?.error) {
+      setShareError(data?.debug ? JSON.stringify(data) : data.error);
       return;
     }
     await refresh();
