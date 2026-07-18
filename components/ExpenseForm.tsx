@@ -53,15 +53,19 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
-      <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">費用を追加</h2>
+    <section className="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
+      <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">
+        費用を追加
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="flex gap-[10px] flex-wrap items-end">
           <div className="flex flex-col gap-1.5">
             <label className={labelClass}>誰の費用か</label>
             <select
               value={form.participant}
-              onChange={(e) => setForm((p) => ({ ...p, participant: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, participant: e.target.value }))
+              }
               className={inputClass}
             >
               <option value={SHARED}>🤝 共有（全員で割る）</option>
@@ -77,7 +81,9 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
             <label className={labelClass}>カテゴリ</label>
             <select
               value={form.category}
-              onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, category: e.target.value }))
+              }
               className={inputClass}
             >
               {CATEGORIES.map((c) => (
@@ -95,7 +101,9 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
               placeholder="例：航空券"
               required
               value={form.title}
-              onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, title: e.target.value }))
+              }
               className={`${inputClass} w-full`}
             />
           </div>
@@ -109,7 +117,9 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
               min={0}
               step={100}
               value={form.amount}
-              onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, amount: e.target.value }))
+              }
               className={`${inputClass} w-full`}
             />
           </div>
@@ -126,6 +136,6 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
           <p className="text-[0.8rem] text-red-500 mt-[10px]">{error}</p>
         )}
       </form>
-    </div>
+    </section>
   );
 }
