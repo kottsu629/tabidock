@@ -29,7 +29,7 @@ export default function LoginPresentation({
       <h1 className="text-2xl font-extrabold text-white mb-1.5 tracking-[-0.03em]">
         おかえりなさい
       </h1>
-      <p className="text-sm text-slate-400 mb-7">TripLog にログインする</p>
+      <p className="text-sm text-slate-400 mb-7">TabiDock にログインする</p>
 
       <div className="flex flex-col gap-3">
         <input

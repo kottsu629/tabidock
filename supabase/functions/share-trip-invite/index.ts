@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "TripLog <onboarding@resend.dev>",
+          from: "TabiDock <onboarding@resend.dev>",
           to: normalizedEmail,
           subject: `「${trip.title}」が共有されました`,
           html: `<p>旅行「${trip.title}」があなたと共有されました。</p><p><a href="${APP_URL}/trips/${tripId}">旅行を見る</a></p>`,

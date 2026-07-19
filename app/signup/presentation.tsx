@@ -40,7 +40,7 @@ export default function SignupPresentation({
         アカウントを作成
       </h1>
       <p className="text-sm text-slate-400 mb-7">
-        TripLog で旅の記録をはじめよう
+        TabiDock で旅の記録をはじめよう
       </p>
 
       <div className="flex flex-col gap-3">

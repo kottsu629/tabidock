@@ -19,7 +19,7 @@ export default function LandingPresentation() {
           <div className="flex items-center gap-2">
             <Image src="/icon.png" alt="" width={24} height={24} />
             <span className="font-extrabold text-lg text-slate-900 tracking-tight">
-              TripLog
+              TabiDock
             </span>
           </div>
           <div className="flex gap-2.5 items-center">
@@ -177,7 +177,7 @@ export default function LandingPresentation() {
             はじめよう。
           </h2>
           <p className="text-base text-slate-400 mb-10 leading-[1.7]">
-            TripLogで旅行費用の管理をシンプルに。
+            TabiDockで旅行費用の管理をシンプルに。
             <br />
             無料で使えるので、まずは試してみてください。
           </p>
@@ -197,10 +197,10 @@ export default function LandingPresentation() {
       <footer className="border-t border-slate-200 py-8 px-6 text-center bg-white">
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="text-[1.1rem]">✈️</span>
-          <span className="font-bold text-slate-900 text-[0.95rem]">TripLog</span>
+          <span className="font-bold text-slate-900 text-[0.95rem]">TabiDock</span>
         </div>
         <p className="text-[0.8rem] text-slate-400 m-0">
-          © 2026 TripLog. All rights reserved.
+          © 2026 TabiDock. All rights reserved.
         </p>
       </footer>
     </div>

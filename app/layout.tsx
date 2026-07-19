@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TripLog",
+  title: "TabiDock",
   description: "旅行の費用を記録・管理するアプリ",
 };
 

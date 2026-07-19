@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: Props) {
       <Link href="/" className="no-underline mb-10 flex items-center gap-2">
         <Image src="/icon.png" alt="" width={28} height={28} />
         <span className="font-extrabold text-[1.25rem] text-white tracking-[-0.03em]">
-          TripLog
+          TabiDock
         </span>
       </Link>
 

@@ -22,7 +22,7 @@ export default function AppHeader({ userName, onLogout }: Props) {
               className="shrink-0"
             />
             <span className="font-bold text-[1.1rem] text-slate-900 tracking-[-0.02em]">
-              TripLog
+              TabiDock
             </span>
           </div>
         </Link>
