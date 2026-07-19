@@ -192,19 +192,6 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
           </button>
         </div>
 
-        <div className="flex items-center gap-2 py-1">
-          <input
-            type="checkbox"
-            id="is_public"
-            checked={form.is_public}
-            onChange={(e) => set("is_public", e.target.checked)}
-            className="w-4 h-4 rounded accent-blue-500"
-          />
-          <label htmlFor="is_public" className="text-gray-700 text-sm">
-            この旅行を公開する
-          </label>
-        </div>
-
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
             <p className="text-red-600 text-[0.8rem]">{error}</p>

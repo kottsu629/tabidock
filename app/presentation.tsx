@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const navLinkClass =
   "text-sm font-medium text-gray-700 py-2 px-4 border border-slate-200 rounded-lg bg-white";
@@ -16,7 +17,7 @@ export default function LandingPresentation() {
       <nav className="sticky top-0 z-[100] bg-white/85 backdrop-blur-md border-b border-slate-200/80 px-6">
         <div className="max-w-[1100px] mx-auto h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-xl">✈️</span>
+            <Image src="/icon.png" alt="" width={24} height={24} />
             <span className="font-extrabold text-lg text-slate-900 tracking-tight">
               TripLog
             </span>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ export default function AuthLayout({ children }: Props) {
 
       {/* ロゴ */}
       <Link href="/" className="no-underline mb-10 flex items-center gap-2">
-        <span className="text-2xl">✈️</span>
+        <Image src="/icon.png" alt="" width={28} height={28} />
         <span className="font-extrabold text-[1.25rem] text-white tracking-[-0.03em]">
           TripLog
         </span>
