@@ -1,5 +1,5 @@
-import LandingContainer from "./container";
+import LandingPresentation from "./presentation";
 
 export default function LandingPage() {
-  return <LandingContainer />;
+  return <LandingPresentation />;
 }

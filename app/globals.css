@@ -33,10 +33,7 @@
 :root {
   --background: #f7f4ed;
   --foreground: #18322e;
-  --paper: #fffdf8;
   --harbor: #153f3b;
-  --harbor-deep: #102f2d;
-  --coral: #d96f4c;
 }
 
 html {
@@ -62,25 +59,11 @@ body {
 .harbor-surface {
   background-color: var(--harbor);
   background-image:
-    radial-gradient(circle at 82% 12%, rgb(217 111 76 / 18%) 0 2px, transparent 3px),
-    linear-gradient(115deg, transparent 0 68%, rgb(255 253 248 / 4%) 68% 69%, transparent 69% 100%);
-  background-size: 44px 44px, 100% 100%;
-}
-
-.paper-surface {
-  background-color: var(--paper);
+    radial-gradient(circle at 82% 12%, rgb(217 111 76 / 10%) 0 1.5px, transparent 2px),
+    linear-gradient(115deg, transparent 0 68%, rgb(255 253 248 / 3%) 68% 69%, transparent 69% 100%);
+  background-size: 52px 52px, 100% 100%;
 }
 
 * {
   box-sizing: border-box;
-}
-
-.hide-on-mobile {
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .hide-on-mobile {
-    display: block;
-  }
 }

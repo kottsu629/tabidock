@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TabiDock",
-  description: "旅行の費用を記録・管理するアプリ",
+  metadataBase: new URL("https://tabidock.com"),
+  title: "TabiDock | 旅行計画・旅行費用管理アプリ",
+  description: "旅行計画・旅程・旅行費用を一括管理できる旅行管理アプリ",
 };
 
 export default function RootLayout({
