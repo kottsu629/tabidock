@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import SiteIcon, { type SiteIconName } from "@/components/SiteIcon";
+import brandIcon from "./icon.png";
 
 const navLinkClass =
   "text-sm font-medium text-gray-700 py-2 px-4 border border-slate-200 rounded-lg bg-white";
 const navCtaClass =
-  "text-sm font-semibold text-white py-2 px-4 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500";
+  "text-sm font-semibold text-white py-2 px-4 rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors";
 const sectionLabelClass =
   "text-[0.8rem] font-bold text-indigo-500 tracking-widest uppercase mb-3";
 const sectionTitleClass =
@@ -12,12 +14,12 @@ const sectionTitleClass =
 
 export default function LandingPresentation() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fffdf8]">
       {/* ナビゲーション */}
-      <nav className="sticky top-0 z-[100] bg-white/85 backdrop-blur-md border-b border-slate-200/80 px-6">
+      <nav className="sticky top-0 z-[100] bg-[#fffdf8]/95 backdrop-blur-md border-b border-slate-200 px-6">
         <div className="max-w-[1100px] mx-auto h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Image src="/icon.png" alt="" width={24} height={24} />
+            <Image src={brandIcon} alt="" width={24} height={24} />
             <span className="font-extrabold text-lg text-slate-900 tracking-tight">
               TabiDock
             </span>
@@ -34,24 +36,24 @@ export default function LandingPresentation() {
       </nav>
 
       {/* ヒーローセクション */}
-      <section className="bg-[linear-gradient(160deg,#0f172a_0%,#1e1b4b_40%,#312e81_70%,#4c1d95_100%)] pt-[100px] pb-[120px] px-6 text-center relative overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.3)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute -bottom-[60px] -left-[60px] w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.25)_0%,transparent_70%)] pointer-events-none" />
+      <section className="harbor-surface pt-[100px] pb-[120px] px-6 text-center relative overflow-hidden">
+        <div className="absolute -top-52 -right-32 w-[430px] h-[430px] rounded-full border border-white/10 pointer-events-none" />
+        <div className="absolute -bottom-52 -left-24 w-[360px] h-[360px] rounded-full border border-[#d96f4c]/40 pointer-events-none" />
 
         <div className="max-w-[720px] mx-auto relative">
-          <div className="inline-flex items-center gap-1.5 bg-indigo-500/20 border border-indigo-500/40 rounded-full py-1.5 px-4 text-[0.8rem] text-indigo-300 font-medium mb-7">
-            <span>✨</span> 旅行費用の管理をもっとシンプルに
+          <div className="inline-flex items-center gap-1.5 bg-white/8 border border-white/15 rounded-full py-1.5 px-4 text-[0.8rem] text-[#d9e8e2] font-medium mb-7">
+            <SiteIcon name="sparkles" className="size-3.5" /> 旅行費用の管理をもっとシンプルに
           </div>
 
           <h1 className="text-[clamp(2.2rem,6vw,3.8rem)] font-extrabold text-white leading-[1.15] tracking-tighter mb-6">
             旅の思い出を、
             <br />
-            <span className="bg-[linear-gradient(90deg,#818cf8,#c084fc)] bg-clip-text text-transparent">
+            <span className="text-[#f0a07e]">
               もっとスマートに。
             </span>
           </h1>
 
-          <p className="text-[clamp(1rem,2.5vw,1.2rem)] text-slate-400 leading-[1.75] max-w-[560px] mx-auto mb-11">
+          <p className="text-[clamp(1rem,2.5vw,1.2rem)] text-[#bfd1cb] leading-[1.75] max-w-[560px] mx-auto mb-11">
             行き先・日程・費用をまとめて記録。
             <br />
             カテゴリ別の内訳から1人あたりの金額まで、
@@ -62,7 +64,7 @@ export default function LandingPresentation() {
           <div className="flex gap-3 justify-center flex-wrap">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 py-3.5 px-8 bg-gradient-to-br from-indigo-500 to-violet-500 text-white font-bold text-base rounded-xl shadow-[0_8px_32px_rgba(99,102,241,0.4)]"
+              className="inline-flex items-center gap-2 py-3.5 px-8 bg-[#d96f4c] hover:bg-[#bd593b] text-white font-bold text-base rounded-xl shadow-[0_5px_0_#8f3e2a] transition"
             >
               無料ではじめる →
             </Link>
@@ -81,28 +83,28 @@ export default function LandingPresentation() {
 
         {/* ダッシュボードプレビュー（スマホ非表示） */}
         <div className="hidden sm:block max-w-[680px] mt-16 mx-auto [perspective:1000px]">
-          <div className="bg-white/5 border border-white/10 rounded-[20px] p-6 [transform:rotateX(4deg)] backdrop-blur-[10px]">
+          <div className="bg-[#fffdf8] border border-[#e7ddcf] rounded-[20px] p-6 shadow-[0_24px_60px_rgba(4,30,27,0.35)]">
             <div className="flex gap-3 mb-4">
               {[
-                { title: "沖縄旅行", dest: "那覇市・沖縄県", amount: "¥148,000", color: "#6366f1" },
-                { title: "京都旅行", dest: "京都市・京都府", amount: "¥62,500", color: "#8b5cf6" },
-                { title: "北海道旅行", dest: "札幌市・北海道", amount: "¥210,000", color: "#06b6d4" },
+                { title: "沖縄旅行", dest: "那覇市・沖縄県", amount: "¥148,000", color: "#197866" },
+                { title: "京都旅行", dest: "京都市・京都府", amount: "¥62,500", color: "#d96f4c" },
+                { title: "北海道旅行", dest: "札幌市・北海道", amount: "¥210,000", color: "#d1a64b" },
               ].map((card) => (
-                <div key={card.title} className="flex-1 bg-white/[0.07] rounded-xl p-3.5 border border-white/10">
+                <div key={card.title} className="flex-1 bg-slate-50 rounded-xl p-3.5 border border-slate-200">
                   <div className="h-[3px] rounded-sm mb-2.5" style={{ backgroundColor: card.color }} />
-                  <p className="text-[0.8rem] font-bold text-slate-200 mb-1">{card.title}</p>
-                  <p className="text-[0.65rem] text-slate-500 mb-2">📍 {card.dest}</p>
-                  <p className="text-base font-bold text-white">{card.amount}</p>
+                  <p className="text-[0.8rem] font-bold text-slate-900 mb-1">{card.title}</p>
+                  <p className="text-[0.65rem] text-slate-500 mb-2 flex items-center gap-1"><SiteIcon name="pin" className="size-3" />{card.dest}</p>
+                  <p className="text-base font-bold text-slate-900">{card.amount}</p>
                 </div>
               ))}
             </div>
-            <div className="h-2 bg-white/5 rounded" />
+            <div className="h-2 bg-slate-100 rounded" />
           </div>
         </div>
       </section>
 
       {/* 特徴セクション */}
-      <section className="py-24 px-6 bg-white">
+      <section className="py-24 px-6 bg-[#fffdf8]">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-[60px]">
             <p className={sectionLabelClass}>Features</p>
@@ -116,17 +118,17 @@ export default function LandingPresentation() {
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5">
             {[
-              { emoji: "✈️", title: "旅行を一元管理", desc: "行き先・日程・人数をまとめて記録。複数の旅行もすっきり整理できます。", color: "#eff6ff" },
-              { emoji: "💰", title: "カテゴリ別に記録", desc: "交通費・宿泊・食費・観光など、費用をカテゴリ別に分類して把握。", color: "#fefce8" },
-              { emoji: "👥", title: "1人あたりを自動計算", desc: "人数を入力するだけで1人あたりの金額を自動計算。割り勘もすぐわかる。", color: "#f0fdf4" },
-              { emoji: "📋", title: "旅行履歴を振り返り", desc: "過去の旅行費用がいつでも確認できます。次の旅の予算計画にも役立てられます。", color: "#fdf4ff" },
+              { icon: "plane", title: "旅行を一元管理", desc: "行き先・日程・人数をまとめて記録。複数の旅行もすっきり整理できます。", color: "#edf7f4" },
+              { icon: "wallet", title: "カテゴリ別に記録", desc: "交通費・宿泊・食費・観光など、費用をカテゴリ別に分類して把握。", color: "#fbf0e9" },
+              { icon: "users", title: "1人あたりを自動計算", desc: "人数を入力するだけで1人あたりの金額を自動計算。割り勘もすぐわかる。", color: "#f2eee3" },
+              { icon: "clipboard", title: "旅行履歴を振り返り", desc: "過去の旅行費用がいつでも確認できます。次の旅の予算計画にも役立てられます。", color: "#edf7f4" },
             ].map((f) => (
-              <div key={f.title} className="bg-white border border-slate-200 rounded-2xl p-7 transition-[transform,box-shadow] duration-200">
+              <div key={f.title} className="bg-[#fffdf8] border border-slate-200 rounded-2xl p-7 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(24,50,46,0.08)]">
                 <div
-                  className="w-[52px] h-[52px] rounded-[14px] flex items-center justify-center text-[1.6rem] mb-[18px]"
+                  className="w-[52px] h-[52px] rounded-[14px] flex items-center justify-center mb-[18px] text-indigo-600"
                   style={{ backgroundColor: f.color }}
                 >
-                  {f.emoji}
+                  <SiteIcon name={f.icon as SiteIconName} className="size-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">{f.title}</h3>
                 <p className="text-sm text-slate-500 leading-[1.7] m-0">{f.desc}</p>
@@ -144,19 +146,19 @@ export default function LandingPresentation() {
 
           <div className="flex flex-col max-w-[480px] mx-auto">
             {[
-              { step: "01", title: "アカウントを作成", desc: "メールアドレスとパスワードで無料登録。30秒で完了します。", emoji: "📝" },
-              { step: "02", title: "旅行を登録する", desc: "タイトル・行き先・日程・人数を入力して旅行を作成。", emoji: "🗺️" },
-              { step: "03", title: "費用を記録する", desc: "カテゴリを選んで金額を追加するだけ。合計は自動で計算されます。", emoji: "💳" },
+              { step: "01", title: "アカウントを作成", desc: "メールアドレスとパスワードで無料登録。30秒で完了します。", icon: "clipboard" },
+              { step: "02", title: "旅行を登録する", desc: "タイトル・行き先・日程・人数を入力して旅行を作成。", icon: "map" },
+              { step: "03", title: "費用を記録する", desc: "カテゴリを選んで金額を追加するだけ。合計は自動で計算されます。", icon: "card" },
             ].map((item, i) => (
               <div key={item.step} className="flex gap-6 items-start text-left">
                 <div className="flex flex-col items-center shrink-0">
-                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-full flex items-center justify-center text-xs font-extrabold text-white">
+                  <div className="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-xs font-extrabold text-white shadow-[0_3px_0_#104f44]">
                     {item.step}
                   </div>
                   {i < 2 && <div className="w-0.5 h-12 bg-slate-200 my-1" />}
                 </div>
                 <div className={`pt-2.5 ${i < 2 ? "pb-10" : ""}`}>
-                  <div className="text-[1.4rem] mb-1.5">{item.emoji}</div>
+                  <SiteIcon name={item.icon as SiteIconName} className="size-5 mb-2 text-indigo-600" />
                   <h3 className="text-base font-bold text-slate-900 mb-1.5">{item.title}</h3>
                   <p className="text-sm text-slate-500 leading-[1.7] m-0">{item.desc}</p>
                 </div>
@@ -167,10 +169,10 @@ export default function LandingPresentation() {
       </section>
 
       {/* CTAセクション */}
-      <section className="py-24 px-6 bg-[linear-gradient(160deg,#0f172a_0%,#1e1b4b_50%,#312e81_100%)] text-center relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.2)_0%,transparent_70%)] pointer-events-none" />
+      <section className="py-24 px-6 harbor-surface text-center relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-white/8 pointer-events-none" />
         <div className="max-w-[560px] mx-auto relative">
-          <div className="text-5xl mb-5">🌏</div>
+          <SiteIcon name="globe" className="size-11 mx-auto mb-5 text-[#f0a07e]" />
           <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold text-white tracking-tighter mb-4">
             さあ、旅の準備を
             <br />
@@ -183,7 +185,7 @@ export default function LandingPresentation() {
           </p>
           <Link
             href="/signup"
-            className="inline-flex items-center gap-2 py-4 px-10 bg-gradient-to-br from-indigo-500 to-violet-500 text-white font-bold text-[1.05rem] rounded-[14px] shadow-[0_12px_40px_rgba(99,102,241,0.5)]"
+            className="inline-flex items-center gap-2 py-4 px-10 bg-[#d96f4c] hover:bg-[#bd593b] text-white font-bold text-[1.05rem] rounded-[14px] shadow-[0_5px_0_#8f3e2a] transition"
           >
             無料ではじめる →
           </Link>
@@ -194,9 +196,9 @@ export default function LandingPresentation() {
       </section>
 
       {/* フッター */}
-      <footer className="border-t border-slate-200 py-8 px-6 text-center bg-white">
+      <footer className="border-t border-slate-200 py-8 px-6 text-center bg-[#fffdf8]">
         <div className="flex items-center justify-center gap-2 mb-2">
-          <span className="text-[1.1rem]">✈️</span>
+          <Image src={brandIcon} alt="" width={22} height={22} />
           <span className="font-bold text-slate-900 text-[0.95rem]">TabiDock</span>
         </div>
         <p className="text-[0.8rem] text-slate-400 m-0">

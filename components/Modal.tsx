@@ -29,7 +29,7 @@ export default function Modal({ onClose, children, size = "md" }: Props) {
       onClick={onClose}
     >
       <div
-        className={`w-full ${maxW} max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl bg-white text-gray-900`}
+        className={`w-full ${maxW} max-h-[90vh] overflow-y-auto rounded-2xl shadow-[0_24px_70px_rgba(24,50,46,0.25)] bg-[#fffdf8] text-gray-900`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

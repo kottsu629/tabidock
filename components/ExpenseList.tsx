@@ -1,4 +1,5 @@
 import { CATEGORIES, CATEGORY_META, ExpenseCategory } from "@/lib/categories";
+import SiteIcon from "./SiteIcon";
 
 type Expense = {
   id: string;
@@ -30,7 +31,7 @@ export default function ExpenseList({ expenses, participants, onDelete }: Props)
     id ? participants.find((p) => p.id === id)?.name ?? "?" : "共有";
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 overflow-hidden">
       <div className="px-6 py-5 border-b border-slate-100">
         <h2 className="text-[0.9rem] font-bold text-slate-900 m-0">
           費用一覧
@@ -42,7 +43,7 @@ export default function ExpenseList({ expenses, participants, onDelete }: Props)
 
       {expenses.length === 0 ? (
         <div className="py-12 px-6 text-center">
-          <div className="text-[2rem] mb-3">💰</div>
+          <SiteIcon name="wallet" className="size-9 mx-auto mb-3 text-indigo-500" />
           <p className="text-slate-400 text-sm">費用がまだ登録されていません</p>
         </div>
       ) : (
@@ -73,7 +74,7 @@ export default function ExpenseList({ expenses, participants, onDelete }: Props)
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-700">{exp.title}</span>
                       <span className="text-[0.7rem] text-slate-400 bg-slate-100 rounded-[6px] px-1.5 py-0.5">
-                        {exp.participant_id ? "👤" : "🤝"} {participantName(exp.participant_id)}
+                        {participantName(exp.participant_id)}
                       </span>
                     </div>
                     <div className="flex items-center gap-4">

@@ -1,3 +1,5 @@
+import SiteIcon from "./SiteIcon";
+
 type Trip = {
   title: string;
   destination: string;
@@ -42,15 +44,16 @@ export default function TripHeaderCard({
   });
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-5">
-      <div className="h-1.5 bg-gradient-to-r from-indigo-500 to-violet-500" />
+    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 overflow-hidden mb-5">
+      <div className="h-1.5 bg-indigo-500" />
       <div className="p-6">
         <h1 className="text-2xl font-bold text-slate-900 mb-1.5">
           {trip.title}
         </h1>
-        <p className="text-sm text-slate-500 mb-5">
-          📍 {trip.destination}（{trip.area}）　📅 {trip.start_date} 〜{" "}
-          {trip.end_date}　👥 {participants.length}人
+        <p className="text-sm text-slate-500 mb-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <span className="inline-flex items-center gap-1.5"><SiteIcon name="pin" className="size-4 text-indigo-500" />{trip.destination}（{trip.area}）</span>
+          <span className="inline-flex items-center gap-1.5"><SiteIcon name="calendar" className="size-4" />{trip.start_date} 〜 {trip.end_date}</span>
+          <span className="inline-flex items-center gap-1.5"><SiteIcon name="users" className="size-4" />{participants.length}人</span>
         </p>
 
         <div className="flex gap-4 flex-wrap mb-4">

@@ -53,7 +53,7 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
+    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
       <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">費用を追加</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex gap-[10px] flex-wrap items-end">
@@ -64,10 +64,10 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
               onChange={(e) => setForm((p) => ({ ...p, participant: e.target.value }))}
               className={inputClass}
             >
-              <option value={SHARED}>🤝 共有（全員で割る）</option>
+              <option value={SHARED}>共有（全員で割る）</option>
               {participants.map((p) => (
                 <option key={p.id} value={p.id}>
-                  👤 {p.name}
+                  {p.name}
                 </option>
               ))}
             </select>
