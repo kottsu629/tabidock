@@ -14,7 +14,7 @@ const sectionTitleClass =
 
 export default function LandingPresentation() {
   return (
-    <div className="min-h-screen bg-[#fffdf8]">
+    <div className="h-dvh overflow-y-auto overscroll-y-none bg-[#fffdf8]">
       {/* ナビゲーション */}
       <nav className="sticky top-0 z-[100] bg-[#fffdf8]/95 backdrop-blur-md border-b border-slate-200 px-6">
         <div className="max-w-[1100px] mx-auto h-[60px] flex items-center justify-between">
