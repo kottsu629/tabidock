@@ -2,6 +2,7 @@ import AppHeader from "@/components/AppHeader";
 import NewTripModal from "@/components/NewTripModal";
 import Modal from "@/components/Modal";
 import TripCard from "@/components/TripCard";
+import SiteIcon from "@/components/SiteIcon";
 
 type Trip = {
   id: string;
@@ -72,8 +73,8 @@ export default function DashboardPresentation({
 
         {/* 旅行一覧 */}
         {trips.length === 0 ? (
-          <div className="text-center py-20 px-5 bg-white rounded-2xl border border-slate-200">
-            <div className="text-5xl mb-4">✈️</div>
+          <div className="text-center py-20 px-5 bg-[#fffdf8] rounded-2xl border border-slate-200">
+            <SiteIcon name="plane" className="size-10 mx-auto mb-4 text-indigo-500" />
             <p className="text-base text-slate-700 font-semibold mb-1.5">
               旅行がまだ登録されていません
             </p>
@@ -103,7 +104,7 @@ export default function DashboardPresentation({
       {deleteTarget && (
         <Modal onClose={onCancelDelete}>
           <div className="p-8">
-            <div className="text-[2.5rem] text-center mb-4">🗑️</div>
+            <SiteIcon name="trash" className="size-9 mx-auto mb-4 text-red-500" />
             <h3 className="text-[1.1rem] font-bold text-slate-900 text-center mb-2">
               旅行を削除しますか？
             </h3>

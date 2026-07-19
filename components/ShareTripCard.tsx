@@ -37,7 +37,7 @@ export default function ShareTripCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
+    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
       <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">共有</h2>
 
       {members.length > 0 && (
@@ -48,7 +48,7 @@ export default function ShareTripCard({
               className="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-2.5 border border-slate-200"
             >
               <span className="text-sm text-slate-700">
-                👤 {m.users?.name ?? m.users?.email ?? "不明なユーザー"}
+                {m.users?.name ?? m.users?.email ?? "不明なユーザー"}
               </span>
               {isOwner && (
                 <button

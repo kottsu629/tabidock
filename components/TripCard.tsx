@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SiteIcon from "./SiteIcon";
 
 type Trip = {
   id: string;
@@ -23,7 +24,7 @@ export default function TripCard({ trip, userId, onDelete }: Props) {
   const isOwner = trip.user_id === userId;
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden transition-[box-shadow,transform] duration-150 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5">
+    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 overflow-hidden transition-[box-shadow,transform] duration-150 hover:shadow-[0_10px_24px_rgba(24,50,46,0.09)] hover:-translate-y-0.5">
       <Link href={`/trips/${trip.id}`} className="no-underline block">
         <div className="h-1 bg-indigo-500" />
         <div className="p-5">
@@ -35,16 +36,20 @@ export default function TripCard({ trip, userId, onDelete }: Props) {
               </span>
             )}
           </h2>
-          <p className="text-[0.8rem] text-slate-500 mb-3">
-            📍 {trip.destination}・{trip.area}
+          <p className="text-[0.8rem] text-slate-500 mb-3 flex items-center gap-1.5">
+            <SiteIcon name="pin" className="size-3.5 text-indigo-500" />
+            {trip.destination}・{trip.area}
           </p>
           <div className="flex items-center gap-1.5 text-[0.78rem] text-slate-400 mb-4">
-            <span>📅</span>
+            <SiteIcon name="calendar" className="size-3.5" />
             <span>
               {trip.start_date} 〜 {trip.end_date}
             </span>
             <span className="ml-auto bg-slate-100 rounded-[6px] px-2 py-0.5 text-slate-500">
-              👥 {trip.participants[0]?.count ?? 0}人
+              <span className="inline-flex items-center gap-1">
+                <SiteIcon name="users" className="size-3.5" />
+                {trip.participants[0]?.count ?? 0}人
+              </span>
             </span>
           </div>
           <div className="border-t border-slate-100 pt-[14px] flex justify-between items-baseline">
@@ -61,7 +66,9 @@ export default function TripCard({ trip, userId, onDelete }: Props) {
             onClick={() => onDelete(trip)}
             className="text-xs text-slate-400 border-none bg-transparent cursor-pointer px-2 py-1 rounded-[6px] hover:text-red-500 hover:bg-red-50 transition-colors"
           >
-            🗑 削除
+            <span className="inline-flex items-center gap-1">
+              <SiteIcon name="trash" className="size-3.5" /> 削除
+            </span>
           </button>
         </div>
       )}

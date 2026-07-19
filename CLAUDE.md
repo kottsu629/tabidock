@@ -1,4 +1,4 @@
-# TripLog - CLAUDE.md
+# TabiDock - CLAUDE.md
 
 ## プロジェクト概要
 
