@@ -25,11 +25,11 @@ export default function Modal({ onClose, children, size = "md" }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-[4px]"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden p-3 sm:p-4 bg-black/60 backdrop-blur-[4px]"
       onClick={onClose}
     >
       <div
-        className={`w-full ${maxW} max-h-[90vh] overflow-y-auto rounded-2xl shadow-[0_24px_70px_rgba(24,50,46,0.25)] bg-[#fffdf8] text-gray-900`}
+        className={`w-full min-w-0 ${maxW} max-h-[90dvh] overflow-x-hidden overflow-y-auto rounded-2xl shadow-[0_24px_70px_rgba(24,50,46,0.25)] bg-[#fffdf8] text-gray-900`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

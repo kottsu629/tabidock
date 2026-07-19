@@ -11,7 +11,7 @@ type Props = {
 };
 
 const inputClass =
-  "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition";
+  "block w-full min-w-0 max-w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition";
 const labelClass =
   "block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5";
 
@@ -81,7 +81,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
   return (
     <Modal onClose={onClose}>
       {/* ヘッダー */}
-      <div className="flex justify-between items-center px-6 pt-6 pb-4 border-b border-gray-100">
+      <div className="flex justify-between items-center px-4 sm:px-6 pt-5 sm:pt-6 pb-4 border-b border-gray-100">
         <div>
           <h2 className="text-gray-900 text-xl font-bold">旅行を追加</h2>
           <p className="text-gray-500 text-[0.8rem] mt-0.5">
@@ -97,7 +97,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
       </div>
 
       {/* フォーム */}
-      <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+      <form onSubmit={handleSubmit} className="min-w-0 px-4 sm:px-6 py-5 space-y-4">
         <div>
           <label className={labelClass}>タイトル</label>
           <input
@@ -110,8 +110,8 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="min-w-0">
             <label className={labelClass}>目的地</label>
             <input
               type="text"
@@ -122,7 +122,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
               placeholder="例：那覇市"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <label className={labelClass}>エリア</label>
             <input
               type="text"
@@ -135,8 +135,8 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="min-w-0">
             <label className={labelClass}>開始日</label>
             <input
               type="date"
@@ -146,7 +146,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
               className={inputClass}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <label className={labelClass}>終了日</label>
             <input
               type="date"
@@ -162,7 +162,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
           <label className={labelClass}>参加者</label>
           <div className="space-y-2">
             {participantNames.map((name, i) => (
-              <div key={i} className="flex gap-2">
+              <div key={i} className="flex min-w-0 gap-2">
                 <input
                   type="text"
                   required
@@ -175,7 +175,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
                   <button
                     type="button"
                     onClick={() => removeParticipant(i)}
-                    className="px-3 text-gray-400 hover:text-red-500 transition"
+                    className="shrink-0 px-3 text-gray-400 hover:text-red-500 transition"
                   >
                     ✕
                   </button>
@@ -198,18 +198,18 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
           </div>
         )}
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 mt-2">
+        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2 border-t border-gray-100 mt-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2.5 text-sm font-medium text-gray-700 rounded-xl border border-gray-200 hover:bg-gray-50 transition"
+            className="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-gray-700 rounded-xl border border-gray-200 hover:bg-gray-50 transition"
           >
             キャンセル
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full sm:w-auto px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
           >
             {loading ? "保存中..." : "+ 追加する"}
           </button>
