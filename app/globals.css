@@ -33,10 +33,7 @@
 :root {
   --background: #f7f4ed;
   --foreground: #18322e;
-  --paper: #fffdf8;
   --harbor: #153f3b;
-  --harbor-deep: #102f2d;
-  --coral: #d96f4c;
 }
 
 html {
@@ -67,20 +64,6 @@ body {
   background-size: 52px 52px, 100% 100%;
 }
 
-.paper-surface {
-  background-color: var(--paper);
-}
-
 * {
   box-sizing: border-box;
-}
-
-.hide-on-mobile {
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .hide-on-mobile {
-    display: block;
-  }
 }

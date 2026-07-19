@@ -30,7 +30,6 @@ export default function DashboardContainer({
   initialTrips,
 }: Props) {
   const router = useRouter();
-  const [userName] = useState(initialUserName);
   const [trips, setTrips] = useState<Trip[]>(initialTrips);
   const [showNewModal, setShowNewModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Trip | null>(null);
@@ -72,7 +71,7 @@ export default function DashboardContainer({
   return (
     <DashboardPresentation
       userId={userId}
-      userName={userName}
+      userName={initialUserName}
       trips={trips}
       showNewModal={showNewModal}
       deleteTarget={deleteTarget}

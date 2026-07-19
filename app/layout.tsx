@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL("https://tabidock.com"),
   title: "TabiDock | 旅行計画・旅行費用管理アプリ",
   description: "旅行計画・旅程・旅行費用を一括管理できる旅行管理アプリ",

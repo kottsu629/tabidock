@@ -58,7 +58,6 @@ export default function TripDetailContainer({
   initialMembers,
 }: Props) {
   const router = useRouter();
-  const [userName] = useState(initialUserName);
   const [trip, setTrip] = useState<Trip>(initialTrip);
   const [participants, setParticipants] =
     useState<Participant[]>(initialParticipants);
@@ -195,7 +194,7 @@ export default function TripDetailContainer({
   return (
     <TripDetailPresentation
       tripId={tripId}
-      userName={userName}
+      userName={initialUserName}
       trip={trip}
       participants={participants}
       expenses={expenses}
