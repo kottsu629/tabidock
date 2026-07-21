@@ -273,7 +273,7 @@ export default function LandingPresentation() {
             はじめよう。
           </h2>
           <p className="text-base text-slate-400 mb-10 leading-[1.7]">
-            TabiDockで旅行費用の管理をシンプルに。
+            TabiDock（タビドック）で旅行費用の管理をシンプルに。
             <br />
             無料で使えるので、まずは試してみてください。
           </p>
