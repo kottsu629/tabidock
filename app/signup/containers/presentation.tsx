@@ -104,7 +104,10 @@ export default function SignupPresentation() {
 
       <p className="text-center mt-5 text-[0.85rem] text-slate-500">
         すでにアカウントをお持ちの方は{" "}
-        <Link href="/login" className="text-indigo-600 no-underline font-semibold">
+        <Link
+          href="/login"
+          className="text-indigo-600 no-underline font-semibold"
+        >
           ログイン
         </Link>
       </p>

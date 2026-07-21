@@ -162,7 +162,8 @@ export default function TripCoverCarousel({
         }}
       >
         {slides.map((image, index) => {
-          const isClone = hasMultipleImages && (index === 0 || index === slides.length - 1);
+          const isClone =
+            hasMultipleImages && (index === 0 || index === slides.length - 1);
           return (
             <div
               key={`${image.image_url}-${index}`}
@@ -173,8 +174,16 @@ export default function TripCoverCarousel({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={image.image_url}
-                alt={isClone ? "" : `${alt} ${hasMultipleImages ? `${index}枚目` : ""}`.trim()}
-                loading={eager && index === (hasMultipleImages ? 1 : 0) ? "eager" : "lazy"}
+                alt={
+                  isClone
+                    ? ""
+                    : `${alt} ${hasMultipleImages ? `${index}枚目` : ""}`.trim()
+                }
+                loading={
+                  eager && index === (hasMultipleImages ? 1 : 0)
+                    ? "eager"
+                    : "lazy"
+                }
                 decoding="async"
                 referrerPolicy="no-referrer"
                 draggable={false}

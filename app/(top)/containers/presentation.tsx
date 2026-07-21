@@ -49,27 +49,39 @@ export default function LandingPresentation() {
         <div className="max-w-[960px] mx-auto relative">
           <div className="inline-flex items-center gap-1.5 bg-white/8 border border-white/15 rounded-full py-1.5 px-3.5 sm:px-4 text-[0.72rem] sm:text-[0.8rem] text-[#d9e8e2] font-medium mb-7">
             <SiteIcon name="sparkles" className="size-3.5" />{" "}
-            <span className="sm:hidden">旅のお金を、もっとシンプルに</span>
-            <span className="hidden sm:inline">旅行費用の管理をもっとシンプルに</span>
+            <span className="sm:hidden">旅の計画・費用・共有をひとつに</span>
+            <span className="hidden sm:inline">
+              旅行計画・費用管理・メンバー共有をもっとシンプルに
+            </span>
           </div>
 
           <h1 className="font-extrabold leading-[1.18] tracking-[-0.045em] mb-6">
             <span className="block sm:hidden text-[2.15rem] text-white">
-              旅の予定とお金を
-              <span className="block mt-1.5 text-[2.3rem] text-[#f0a07e]">まとめて管理</span>
+              旅の予定も費用も
+              <span className="block mt-1.5 text-[2.3rem] text-[#f0a07e]">
+                ひとつにまとめて
+              </span>
             </span>
             <span className="hidden sm:block">
-              <span className="block text-[clamp(2rem,5vw,3.4rem)] text-white whitespace-nowrap">旅行計画・旅程・旅行費用を</span>
-              <span className="block mt-2 text-[clamp(2.15rem,5.3vw,3.6rem)] text-[#f0a07e]">まとめて管理</span>
+              <span className="block text-[clamp(2rem,5vw,3.4rem)] text-white whitespace-nowrap">
+                旅行の予定・メンバー・費用を
+              </span>
+              <span className="block mt-2 text-[clamp(2.15rem,5.3vw,3.6rem)] text-[#f0a07e]">
+                ひとつにまとめて管理
+              </span>
             </span>
           </h1>
 
           <p className="text-[0.92rem] sm:text-[1.1rem] text-[#bfd1cb] leading-[1.85] max-w-[560px] mx-auto mb-8 sm:mb-11">
-            <span className="sm:hidden">行き先・日程・費用を、<br />ひとつの場所でシンプルに記録。</span>
+            <span className="sm:hidden">
+              行き先・日程・参加者・費用を記録。
+              <br />
+              メンバー共有や旅の公開も、ひとつの場所で。
+            </span>
             <span className="hidden sm:inline">
-              行き先・日程・費用をまとめて記録。<br />
-              カテゴリ別の内訳から1人あたりの金額まで、<br />
-              旅のお金を一目で把握できます。
+              行き先・日程・参加者・費用をひとつに記録。
+              <br />
+              メンバーとの共同管理から、Exploreへの旅行公開まで。
             </span>
           </p>
 
@@ -81,10 +93,10 @@ export default function LandingPresentation() {
               無料ではじめる →
             </Link>
             <Link
-              href="/login"
-              className="hidden sm:inline-flex items-center justify-center gap-2 py-3.5 px-8 bg-white/10 border border-white/20 text-slate-200 font-semibold text-base rounded-xl"
+              href="/explore"
+              className="inline-flex w-full max-w-[280px] sm:w-auto items-center justify-center gap-2 py-3.5 px-8 bg-white/10 border border-white/20 text-slate-200 font-semibold text-base rounded-xl"
             >
-              ログイン
+              公開旅行を見てみる
             </Link>
           </div>
 
@@ -149,10 +161,10 @@ export default function LandingPresentation() {
           <div className="text-center mb-[60px]">
             <p className={sectionLabelClass}>Features</p>
             <h2 className={`${sectionTitleClass} mb-4`}>
-              シンプルなお金管理の最適解
+              旅行の計画から共有・公開まで
             </h2>
             <p className="text-base text-slate-500 max-w-[480px] mx-auto leading-[1.7]">
-              複雑な設定は不要。旅行を登録して、費用を追加するだけ。
+              TabiDock（タビドック）は、旅行情報と費用をひとつにまとめ、メンバーと共有できる旅行管理アプリです。
             </p>
           </div>
 
@@ -160,26 +172,26 @@ export default function LandingPresentation() {
             {[
               {
                 icon: "plane",
-                title: "旅行を一元管理",
-                desc: "行き先・日程・人数をまとめて記録。複数の旅行もすっきり整理できます。",
+                title: "旅行情報をひとまとめ",
+                desc: "行き先・日程・参加者を旅行ごとに記録。これからの旅も過去の旅も一覧で確認できます。",
                 color: "#edf7f4",
               },
               {
                 icon: "wallet",
-                title: "カテゴリ別に記録",
-                desc: "交通費・宿泊・食費・観光など、費用をカテゴリ別に分類して把握。",
+                title: "旅行費用を自動集計",
+                desc: "交通・宿泊・食費などをカテゴリ別に記録。共有費用と個人費用を分けて、1人ごとの金額も確認できます。",
                 color: "#fbf0e9",
               },
               {
                 icon: "users",
-                title: "1人あたりを自動計算",
-                desc: "人数を入力するだけで1人あたりの金額を自動計算。割り勘もすぐわかる。",
+                title: "メンバーと一緒に管理",
+                desc: "メールアドレスで旅行メンバーを招待。共有した旅行の費用を一緒に記録・更新できます。",
                 color: "#f2eee3",
               },
               {
-                icon: "clipboard",
-                title: "旅行履歴を振り返り",
-                desc: "過去の旅行費用がいつでも確認できます。次の旅の予算計画にも役立てられます。",
+                icon: "globe",
+                title: "旅をExploreに公開",
+                desc: "公開・非公開を選択可能。最大5枚の写真やテーマ、旅行スタイルを設定し、誰でも見られる形で旅を紹介できます。",
                 color: "#edf7f4",
               },
             ].map((f) => (
@@ -217,21 +229,21 @@ export default function LandingPresentation() {
             {[
               {
                 step: "01",
-                title: "アカウントを作成",
-                desc: "メールアドレスとパスワードで無料登録。30秒で完了します。",
-                icon: "clipboard",
-              },
-              {
-                step: "02",
-                title: "旅行を登録する",
-                desc: "タイトル・行き先・日程・人数を入力して旅行を作成。",
+                title: "旅行と参加者を登録",
+                desc: "タイトル・行き先・日程と、一緒に旅行する参加者を入力して旅行を作成します。",
                 icon: "map",
               },
               {
-                step: "03",
-                title: "費用を記録する",
-                desc: "カテゴリを選んで金額を追加するだけ。合計は自動で計算されます。",
+                step: "02",
+                title: "費用を記録・自動集計",
+                desc: "カテゴリと支払対象を選んで金額を追加。合計金額と参加者ごとの金額を確認できます。",
                 icon: "card",
+              },
+              {
+                step: "03",
+                title: "旅行を共有・公開",
+                desc: "メンバーを招待して一緒に管理。公開したい旅行は写真やテーマを設定してExploreへ掲載できます。",
+                icon: "globe",
               },
             ].map((item, i) => (
               <div key={item.step} className="flex gap-6 items-start text-left">
@@ -268,12 +280,12 @@ export default function LandingPresentation() {
             className="size-11 mx-auto mb-5 text-[#f0a07e]"
           />
           <h2 className="text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold text-white tracking-tighter mb-4">
-            さあ、旅の準備を
+            次の旅行を、
             <br />
-            はじめよう。
+            ひとつにまとめよう。
           </h2>
           <p className="text-base text-slate-400 mb-10 leading-[1.7]">
-            TabiDock（タビドック）で旅行費用の管理をシンプルに。
+            TabiDock（タビドック）なら、旅行の予定も費用もメンバー共有もひとつに。
             <br />
             無料で使えるので、まずは試してみてください。
           </p>
@@ -294,7 +306,7 @@ export default function LandingPresentation() {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Image src={brandIcon} alt="" width={22} height={22} />
           <span className="font-bold text-slate-900 text-[0.95rem]">
-            TabiDock
+            TabiDock（タビドック）
           </span>
         </div>
         <p className="text-[0.8rem] text-slate-400 m-0">

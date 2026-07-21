@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import LandingContainer from "./containers/container";
 
 const title =
-  "TabiDock（タビドック）｜旅行計画・旅程・旅行費用をまとめて管理";
+  "TabiDock（タビドック）｜旅行計画・費用管理・共有をひとつに";
 const description =
-  "TabiDock（タビドック）は、旅行計画・旅程・旅行費用をひとつにまとめて管理できる旅行管理アプリです。グループ旅行の費用共有や公開旅行の閲覧にも対応しています。";
+  "TabiDock（タビドック）は、旅行の日程・行き先・参加者・費用をひとつにまとめて管理できる旅行管理アプリです。メンバーとの共同管理、費用の自動集計、公開旅行の閲覧・掲載にも対応しています。";
 
 export const metadata: Metadata = {
   title: { absolute: title },
