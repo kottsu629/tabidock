@@ -1,8 +1,18 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import AppHeader from "@/components/AppHeader";
-import NewTripModal from "@/components/NewTripModal";
 import Modal from "@/components/Modal";
-import TripCard from "@/components/TripCard";
 import SiteIcon from "@/components/SiteIcon";
+import { supabase } from "@/lib/supabase";
+import {
+  getOwnedTripCoverStoragePath,
+  normalizeTripCoverImages,
+  TRIP_COVER_BUCKET,
+} from "@/lib/trip-cover";
+import NewTripModal from "../components/NewTripModal";
+import TripCard from "../components/TripCard";
 
 type Trip = {
   id: string;
@@ -25,38 +35,86 @@ type Trip = {
 
 type Props = {
   userId: string;
-  userName: string;
-  trips: Trip[];
-  showNewModal: boolean;
-  deleteTarget: Trip | null;
-  deleting: boolean;
-  onLogout: () => void;
-  onAddClick: () => void;
-  onCloseNewModal: () => void;
-  onTripCreated: () => void;
-  onDeleteClick: (trip: Trip) => void;
-  onCancelDelete: () => void;
-  onConfirmDelete: () => void;
+  initialUserName: string;
+  initialTrips: Trip[];
 };
 
 export default function DashboardPresentation({
   userId,
-  userName,
-  trips,
-  showNewModal,
-  deleteTarget,
-  deleting,
-  onLogout,
-  onAddClick,
-  onCloseNewModal,
-  onTripCreated,
-  onDeleteClick,
-  onCancelDelete,
-  onConfirmDelete,
+  initialUserName,
+  initialTrips,
 }: Props) {
+  const router = useRouter();
+  const [trips, setTrips] = useState<Trip[]>(initialTrips);
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Trip | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const fetchTrips = async () => {
+    const { data: memberRows } = await supabase
+      .from("trip_members")
+      .select("trip_id")
+      .eq("user_id", userId);
+    const memberTripIds = (memberRows ?? []).map((row) => row.trip_id);
+
+    const tripsQuery = supabase
+      .from("trips")
+      .select("*, participants(count)")
+      .order("start_date", { ascending: false });
+
+    const { data } =
+      memberTripIds.length > 0
+        ? await tripsQuery.or(
+            `user_id.eq.${userId},id.in.(${memberTripIds.join(",")})`,
+          )
+        : await tripsQuery.eq("user_id", userId);
+    if (data) setTrips(data);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    const { error } = await supabase
+      .from("trips")
+      .delete()
+      .eq("id", deleteTarget.id);
+    if (!error) {
+      const coverStoragePaths = normalizeTripCoverImages(
+        deleteTarget.cover_images,
+        {
+          image_url: deleteTarget.cover_image_url ?? "",
+          cover_image_fit: deleteTarget.cover_image_fit,
+          cover_image_zoom: Number(deleteTarget.cover_image_zoom),
+          cover_image_position_x: deleteTarget.cover_image_position_x,
+          cover_image_position_y: deleteTarget.cover_image_position_y,
+        },
+      ).flatMap((image) => {
+        const path = getOwnedTripCoverStoragePath(
+          image.image_url,
+          userId,
+          deleteTarget.id,
+        );
+        return path ? [path] : [];
+      });
+      if (coverStoragePaths.length > 0) {
+        await supabase.storage
+          .from(TRIP_COVER_BUCKET)
+          .remove(Array.from(new Set(coverStoragePaths)));
+      }
+    }
+    setDeleting(false);
+    setDeleteTarget(null);
+    await fetchTrips();
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <AppHeader userName={userName} onLogout={onLogout} />
+      <AppHeader userName={initialUserName} onLogout={handleLogout} />
 
       <main className="max-w-[1200px] mx-auto px-6 py-8">
         {/* ページタイトル + 追加ボタン */}
@@ -70,7 +128,7 @@ export default function DashboardPresentation({
             </p>
           </div>
           <button
-            onClick={onAddClick}
+            onClick={() => setShowNewModal(true)}
             className="bg-indigo-500 text-white border-none rounded-[10px] py-[10px] px-5 text-sm font-semibold cursor-pointer flex items-center gap-1.5 hover:bg-indigo-600 transition-colors"
           >
             <span className="text-base">+</span> 旅行を追加
@@ -80,7 +138,10 @@ export default function DashboardPresentation({
         {/* 旅行一覧 */}
         {trips.length === 0 ? (
           <div className="text-center py-20 px-5 bg-[#fffdf8] rounded-2xl border border-slate-200">
-            <SiteIcon name="plane" className="size-10 mx-auto mb-4 text-indigo-500" />
+            <SiteIcon
+              name="plane"
+              className="size-10 mx-auto mb-4 text-indigo-500"
+            />
             <p className="text-base text-slate-700 font-semibold mb-1.5">
               旅行がまだ登録されていません
             </p>
@@ -91,7 +152,12 @@ export default function DashboardPresentation({
         ) : (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
             {trips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} userId={userId} onDelete={onDeleteClick} />
+              <TripCard
+                key={trip.id}
+                trip={trip}
+                userId={userId}
+                onDelete={setDeleteTarget}
+              />
             ))}
           </div>
         )}
@@ -101,16 +167,19 @@ export default function DashboardPresentation({
       {showNewModal && (
         <NewTripModal
           userId={userId}
-          onClose={onCloseNewModal}
-          onCreated={onTripCreated}
+          onClose={() => setShowNewModal(false)}
+          onCreated={fetchTrips}
         />
       )}
 
       {/* 削除確認モーダル */}
       {deleteTarget && (
-        <Modal onClose={onCancelDelete}>
+        <Modal onClose={() => setDeleteTarget(null)}>
           <div className="p-8">
-            <SiteIcon name="trash" className="size-9 mx-auto mb-4 text-red-500" />
+            <SiteIcon
+              name="trash"
+              className="size-9 mx-auto mb-4 text-red-500"
+            />
             <h3 className="text-[1.1rem] font-bold text-slate-900 text-center mb-2">
               旅行を削除しますか？
             </h3>
@@ -122,13 +191,13 @@ export default function DashboardPresentation({
             </p>
             <div className="flex gap-[10px]">
               <button
-                onClick={onCancelDelete}
+                onClick={() => setDeleteTarget(null)}
                 className="flex-1 py-[10px] rounded-[10px] border border-slate-200 bg-white text-gray-700 text-sm font-medium cursor-pointer hover:bg-slate-50 transition-colors"
               >
                 キャンセル
               </button>
               <button
-                onClick={onConfirmDelete}
+                onClick={handleConfirmDelete}
                 disabled={deleting}
                 className="flex-1 py-[10px] rounded-[10px] border-none bg-red-500 text-white text-sm font-semibold cursor-pointer disabled:opacity-60 hover:bg-red-600 transition-colors"
               >

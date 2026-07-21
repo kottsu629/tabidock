@@ -116,7 +116,7 @@ export default function CoverImageEditor({
   };
 
   return (
-    <div>
+    <section aria-label="選択中の写真">
       <div
         role="group"
         tabIndex={canAdjustPosition ? 0 : -1}
@@ -244,7 +244,7 @@ export default function CoverImageEditor({
           </p>
         )}
       </section>
-    </div>
+    </section>
   );
 }
 

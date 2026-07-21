@@ -1,4 +1,4 @@
-import SiteIcon from "./SiteIcon";
+import SiteIcon from "@/components/SiteIcon";
 
 type Trip = {
   title: string;

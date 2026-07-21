@@ -1,5 +1,5 @@
 import LandingPresentation from "./presentation";
 
-export default function LandingPage() {
+export default function LandingContainer() {
   return <LandingPresentation />;
 }

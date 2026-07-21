@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
 
 type Props = {
   userId: string;

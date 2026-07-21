@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SiteIcon from "./SiteIcon";
+import SiteIcon from "@/components/SiteIcon";
 
 type Trip = {
   id: string;

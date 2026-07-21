@@ -1,35 +1,48 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/AuthLayout";
 import AuthButton from "@/components/AuthButton";
+import { supabase } from "@/lib/supabase";
 
 const inputClass =
   "w-full py-3 px-4 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-[0.9rem] outline-none box-border focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100";
 const labelClass =
   "block text-[0.75rem] font-semibold text-slate-500 mb-1.5 uppercase tracking-[0.05em]";
 
-type Props = {
-  name: string;
-  email: string;
-  password: string;
-  error: string | null;
-  loading: boolean;
-  onNameChange: (value: string) => void;
-  onEmailChange: (value: string) => void;
-  onPasswordChange: (value: string) => void;
-  onSubmit: () => void;
-};
+export default function SignupPresentation() {
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-export default function SignupPresentation({
-  name,
-  email,
-  password,
-  error,
-  loading,
-  onNameChange,
-  onEmailChange,
-  onPasswordChange,
-  onSubmit,
-}: Props) {
+  const handleSignup = async () => {
+    setLoading(true);
+    setError(null);
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (signUpError || !data.user) {
+      setError(signUpError?.message ?? "エラーが発生しました");
+      setLoading(false);
+      return;
+    }
+    const { error: insertError } = await supabase
+      .from("users")
+      .insert({ id: data.user.id, name, email });
+    if (insertError) {
+      setError(insertError.message);
+      setLoading(false);
+      return;
+    }
+    router.push("/dashboard");
+  };
+
   return (
     <AuthLayout>
       <div className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-200 rounded-full py-1 px-3 text-[0.75rem] text-indigo-700 font-medium mb-4">
@@ -50,7 +63,7 @@ export default function SignupPresentation({
             type="text"
             placeholder="例：たろう"
             value={name}
-            onChange={(e) => onNameChange(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             className={inputClass}
           />
         </div>
@@ -60,7 +73,7 @@ export default function SignupPresentation({
             type="email"
             placeholder="example@email.com"
             value={email}
-            onChange={(e) => onEmailChange(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             className={inputClass}
           />
         </div>
@@ -70,7 +83,7 @@ export default function SignupPresentation({
             type="password"
             placeholder="8文字以上"
             value={password}
-            onChange={(e) => onPasswordChange(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             className={inputClass}
           />
         </div>
@@ -83,7 +96,7 @@ export default function SignupPresentation({
       )}
 
       <AuthButton
-        onClick={onSubmit}
+        onClick={handleSignup}
         loading={loading}
         label="無料ではじめる →"
         loadingLabel="登録中..."

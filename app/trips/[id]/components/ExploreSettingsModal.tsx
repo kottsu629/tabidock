@@ -21,8 +21,8 @@ import {
   type TripCoverImage,
 } from "@/lib/trip-cover";
 import CoverImageEditor from "./CoverImageEditor";
-import Modal from "./Modal";
-import SiteIcon from "./SiteIcon";
+import Modal from "@/components/Modal";
+import SiteIcon from "@/components/SiteIcon";
 
 type Props = {
   tripId: string;

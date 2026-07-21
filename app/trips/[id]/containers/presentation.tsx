@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FunctionsHttpError } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
+import AppHeader from "@/components/AppHeader";
 import type { ExploreTripSettings } from "@/lib/explore";
+import { supabase } from "@/lib/supabase";
 import { normalizeTripCoverImages } from "@/lib/trip-cover";
-import TripDetailPresentation from "./presentation";
+import ExpenseForm from "../components/ExpenseForm";
+import ExpenseList from "../components/ExpenseList";
+import ExploreSettingsModal from "../components/ExploreSettingsModal";
+import ShareTripCard from "../components/ShareTripCard";
+import TripHeaderCard from "../components/TripHeaderCard";
+import TripVisibilityCard from "../components/TripVisibilityCard";
 
 type Trip = {
   id: string;
@@ -58,7 +65,7 @@ type Props = {
   initialMembers: Member[];
 };
 
-export default function TripDetailContainer({
+export default function TripDetailPresentation({
   tripId,
   userId,
   initialUserName,
@@ -182,7 +189,9 @@ export default function TripDetailContainer({
       if (error instanceof FunctionsHttpError) {
         try {
           const body = await error.context.json();
-          message = body?.debug ? JSON.stringify(body) : body?.error ?? message;
+          message = body?.debug
+            ? JSON.stringify(body)
+            : (body?.error ?? message);
         } catch {
           // レスポンスボディがJSONでない場合は元のメッセージのまま
         }
@@ -210,26 +219,70 @@ export default function TripDetailContainer({
   };
 
   return (
-    <TripDetailPresentation
-      tripId={tripId}
-      userId={userId}
-      userName={initialUserName}
-      trip={trip}
-      participants={participants}
-      expenses={expenses}
-      members={members}
-      isOwner={isOwner}
-      shareError={shareError}
-      showExploreSettings={showExploreSettings}
-      onLogout={handleLogout}
-      onOpenExploreSettings={() => setShowExploreSettings(true)}
-      onCloseExploreSettings={() => setShowExploreSettings(false)}
-      onExploreSettingsSaved={handleExploreSettingsSaved}
-      onExpenseAdded={refresh}
-      onDeleteExpense={handleDeleteExpense}
-      onShare={handleShare}
-      onRemoveMember={handleRemoveMember}
-    />
+    <div className="min-h-screen bg-slate-50">
+      <AppHeader userName={initialUserName} onLogout={handleLogout} />
+
+      <main className="max-w-[800px] mx-auto px-6 py-8">
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-1.5 text-sm text-slate-500 no-underline mb-6"
+        >
+          ← 旅行一覧へ戻る
+        </Link>
+
+        <TripHeaderCard
+          trip={trip}
+          participants={participants}
+          expenses={expenses}
+        />
+        {isOwner && (
+          <TripVisibilityCard
+            isPublic={trip.is_public}
+            coverImages={trip.cover_images}
+            travelStyle={trip.travel_style}
+            themes={trip.themes}
+            onEdit={() => setShowExploreSettings(true)}
+          />
+        )}
+        <ShareTripCard
+          members={members}
+          isOwner={isOwner}
+          shareError={shareError}
+          onShare={handleShare}
+          onRemoveMember={handleRemoveMember}
+        />
+        <ExpenseForm
+          tripId={tripId}
+          participants={participants}
+          onAdded={refresh}
+        />
+        <ExpenseList
+          expenses={expenses}
+          participants={participants}
+          onDelete={handleDeleteExpense}
+        />
+      </main>
+
+      {showExploreSettings && (
+        <ExploreSettingsModal
+          tripId={tripId}
+          userId={userId}
+          initialSettings={{
+            cover_images: trip.cover_images,
+            cover_image_url: trip.cover_image_url,
+            cover_image_fit: trip.cover_image_fit,
+            cover_image_zoom: trip.cover_image_zoom,
+            cover_image_position_x: trip.cover_image_position_x,
+            cover_image_position_y: trip.cover_image_position_y,
+            travel_style: trip.travel_style,
+            themes: trip.themes,
+            is_public: trip.is_public,
+          }}
+          onClose={() => setShowExploreSettings(false)}
+          onSaved={handleExploreSettingsSaved}
+        />
+      )}
+    </div>
   );
 }
 

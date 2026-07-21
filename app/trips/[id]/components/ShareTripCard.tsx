@@ -37,7 +37,7 @@ export default function ShareTripCard({
   };
 
   return (
-    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
+    <section className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
       <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">
         メンバー共有
       </h2>
@@ -87,6 +87,6 @@ export default function ShareTripCard({
         </form>
       )}
       {shareError && <p className="text-[0.8rem] text-red-500 mt-[10px]">{shareError}</p>}
-    </div>
+    </section>
   );
 }

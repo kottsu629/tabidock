@@ -1,7 +1,7 @@
 import Link from "next/link";
-import SiteIcon from "./SiteIcon";
+import SiteIcon from "@/components/SiteIcon";
 import { formatTripDate, type PublicTrip } from "@/lib/explore";
-import TripCoverCarousel from "./TripCoverCarousel";
+import TripCoverCarousel from "@/components/TripCoverCarousel";
 
 type Props = {
   trip: PublicTrip;

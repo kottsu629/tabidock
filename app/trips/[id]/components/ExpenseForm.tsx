@@ -53,7 +53,7 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
   };
 
   return (
-    <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
+    <section className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
       <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">費用を追加</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex gap-[10px] flex-wrap items-end">
@@ -126,6 +126,6 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
           <p className="text-[0.8rem] text-red-500 mt-[10px]">{error}</p>
         )}
       </form>
-    </div>
+    </section>
   );
 }

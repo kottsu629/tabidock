@@ -1,5 +1,5 @@
 import { CATEGORIES, CATEGORY_META, ExpenseCategory } from "@/lib/categories";
-import SiteIcon from "./SiteIcon";
+import SiteIcon from "@/components/SiteIcon";
 
 type Expense = {
   id: string;

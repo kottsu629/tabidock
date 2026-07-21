@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import SiteIcon, { type SiteIconName } from "@/components/SiteIcon";
-import brandIcon from "./icon.png";
+import brandIcon from "../../icon.png";
 
 const navLinkClass =
   "whitespace-nowrap text-xs sm:text-sm font-medium text-gray-700 py-2 px-3 sm:px-4 border border-slate-200 rounded-lg bg-white";

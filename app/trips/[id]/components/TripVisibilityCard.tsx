@@ -1,6 +1,6 @@
 "use client";
 
-import SiteIcon from "./SiteIcon";
+import SiteIcon from "@/components/SiteIcon";
 import { getCoverImageStyle, type TripCoverImage } from "@/lib/trip-cover";
 
 type Props = {
