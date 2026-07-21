@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import SiteIcon, { type SiteIconName } from "@/components/SiteIcon";
+import SiteHeader from "@/components/SiteHeader";
 import brandIcon from "../../icon.png";
 
 const navLinkClass =
@@ -16,21 +17,12 @@ export default function LandingPresentation() {
   return (
     <div className="h-dvh overflow-y-auto overscroll-y-none bg-[#fffdf8]">
       {/* ナビゲーション */}
-      <nav className="sticky top-0 z-[100] bg-[#fffdf8]/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1100px] mx-auto h-[60px] flex items-center justify-between">
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-            <Image src={brandIcon} alt="" width={22} height={22} />
-            <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
-              TabiDock
-            </span>
-          </div>
+      <SiteHeader
+        brandHref="/"
+        sticky
+        maxWidthClassName="max-w-[1100px]"
+        actions={
           <div className="flex gap-2 sm:gap-2.5 items-center">
-            <Link
-              href="/explore"
-              className="hidden sm:inline-flex whitespace-nowrap text-sm font-medium text-slate-600 py-2 px-2"
-            >
-              Explore
-            </Link>
             <Link href="/login" className={navLinkClass}>
               ログイン
             </Link>
@@ -38,8 +30,8 @@ export default function LandingPresentation() {
               無料で始める
             </Link>
           </div>
-        </div>
-      </nav>
+        }
+      />
 
       {/* ヒーローセクション */}
       <section className="harbor-surface pt-12 sm:pt-[100px] pb-14 sm:pb-[120px] px-5 sm:px-6 text-center relative overflow-hidden">
@@ -81,7 +73,7 @@ export default function LandingPresentation() {
             <span className="hidden sm:inline">
               行き先・日程・参加者・費用をひとつに記録。
               <br />
-              メンバーとの共同管理から、Exploreへの旅行公開まで。
+              メンバーとの共同管理から、公開旅行としての掲載まで。
             </span>
           </p>
 
@@ -96,7 +88,7 @@ export default function LandingPresentation() {
               href="/explore"
               className="inline-flex w-full max-w-[280px] sm:w-auto items-center justify-center gap-2 py-3.5 px-8 bg-white/10 border border-white/20 text-slate-200 font-semibold text-base rounded-xl"
             >
-              公開旅行を見てみる
+              みんなの旅を見てみる
             </Link>
           </div>
 
@@ -190,7 +182,7 @@ export default function LandingPresentation() {
               },
               {
                 icon: "globe",
-                title: "旅をExploreに公開",
+                title: "旅をみんなに公開",
                 desc: "公開・非公開を選択可能。最大5枚の写真やテーマ、旅行スタイルを設定し、誰でも見られる形で旅を紹介できます。",
                 color: "#edf7f4",
               },
@@ -242,7 +234,7 @@ export default function LandingPresentation() {
               {
                 step: "03",
                 title: "旅行を共有・公開",
-                desc: "メンバーを招待して一緒に管理。公開したい旅行は写真やテーマを設定してExploreへ掲載できます。",
+                desc: "メンバーを招待して一緒に管理。公開したい旅行は写真やテーマを設定して「みんなの旅」へ掲載できます。",
                 icon: "globe",
               },
             ].map((item, i) => (

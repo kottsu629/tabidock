@@ -22,7 +22,7 @@ export default function ExploreTripNotFound() {
           href="/explore"
           className="inline-flex rounded-[10px] bg-indigo-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-600 transition-colors"
         >
-          Exploreへ戻る
+          公開旅行一覧へ戻る
         </Link>
       </section>
     </main>

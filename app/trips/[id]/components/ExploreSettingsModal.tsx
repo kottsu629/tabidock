@@ -286,7 +286,7 @@ export default function ExploreSettingsModal({
             .remove(uploadedPaths);
         }
         setSaving(false);
-        setError("Explore掲載設定を保存できませんでした。");
+        setError("公開設定を保存できませんでした。");
         return;
       }
 
@@ -341,7 +341,7 @@ export default function ExploreSettingsModal({
         await supabase.storage.from(TRIP_COVER_BUCKET).remove(uploadedPaths);
       }
       setSaving(false);
-      setError("Explore掲載設定を保存できませんでした。");
+      setError("公開設定を保存できませんでした。");
     }
   };
 
@@ -350,7 +350,7 @@ export default function ExploreSettingsModal({
       <header className="flex items-start justify-between gap-4 border-b border-slate-200 px-4 pb-4 pt-5 sm:px-6 sm:pt-6">
         <div>
           <p className="mb-1 text-[0.7rem] font-bold uppercase tracking-widest text-indigo-500">
-            Explore
+            公開旅行
           </p>
           <h2 className="text-xl font-bold text-slate-900">掲載内容を編集</h2>
           <p className="mt-1 text-[0.8rem] text-slate-500">
@@ -379,7 +379,7 @@ export default function ExploreSettingsModal({
                 掲載写真
               </h3>
               <p className="mt-0.5 text-[0.72rem] text-slate-400">
-                1枚目がExploreの表紙になります
+                1枚目が公開旅行の表紙になります
               </p>
             </div>
             <span className="text-xs font-semibold tabular-nums text-slate-500">
@@ -545,7 +545,7 @@ export default function ExploreSettingsModal({
         <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5">
           <span>
             <span className="block text-sm font-semibold text-slate-800">
-              Exploreに公開する
+              「みんなの旅」に公開する
             </span>
             <span className="mt-0.5 block text-[0.75rem] leading-relaxed text-slate-500">
               未ログインのユーザーを含む、すべての人が閲覧できます

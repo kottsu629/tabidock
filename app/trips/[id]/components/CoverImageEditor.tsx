@@ -169,7 +169,7 @@ export default function CoverImageEditor({
               写真の表示調整
             </h4>
             <p className="mt-0.5 text-[0.72rem] text-slate-400">
-              Exploreと同じ16:9で確認できます
+              公開ページと同じ16:9で確認できます
             </p>
           </div>
           <button

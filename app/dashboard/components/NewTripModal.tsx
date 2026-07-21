@@ -204,7 +204,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
         <label className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 cursor-pointer">
           <span className="min-w-0">
             <span className="block text-sm font-semibold text-slate-800">
-              Exploreに公開する
+              「みんなの旅」に公開する
             </span>
             <span className="block text-[0.75rem] leading-relaxed text-slate-500 mt-0.5">
               未ログインのユーザーを含む、すべての人が閲覧できます

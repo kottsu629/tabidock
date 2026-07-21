@@ -24,7 +24,7 @@ export default function ExplorePresentation({
       <main className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 sm:py-10">
         <section aria-labelledby="explore-page-title" className="mb-7">
           <p className="text-[0.75rem] font-bold text-indigo-500 tracking-[0.16em] uppercase mb-2">
-            Explore
+            公開旅行
           </p>
           <h1
             id="explore-page-title"

@@ -39,7 +39,7 @@ export default function TripVisibilityCard({
                 id="explore-visibility-heading"
                 className="text-[0.9rem] font-bold text-slate-900"
               >
-                Explore公開設定
+                旅行の公開設定
               </h2>
               <span
                 className={`rounded-[6px] px-2 py-0.5 text-[0.65rem] font-semibold ${

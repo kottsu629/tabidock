@@ -23,7 +23,7 @@ export default function ExploreTripDetailPresentation({
           href="/explore"
           className="inline-flex items-center gap-1.5 text-sm text-slate-500 no-underline mb-5 hover:text-indigo-600 transition-colors"
         >
-          ← Exploreへ戻る
+          ← 公開旅行一覧へ戻る
         </Link>
 
         <article className="bg-[#fffdf8] rounded-2xl border border-slate-200 overflow-hidden">
