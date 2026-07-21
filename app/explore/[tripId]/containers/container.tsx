@@ -19,9 +19,7 @@ export default async function ExploreTripDetailContainer({ tripId }: Props) {
     throw new Error("公開旅行の読み込みに失敗しました");
   }
 
-  const trips = normalizePublicTrips((data ?? []) as Parameters<
-    typeof normalizePublicTrips
-  >[0]);
+  const trips = normalizePublicTrips(data ?? []);
   const trip = trips[0];
   if (!trip) notFound();
 

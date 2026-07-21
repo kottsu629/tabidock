@@ -7,62 +7,32 @@ import { FunctionsHttpError } from "@supabase/supabase-js";
 import AppHeader from "@/components/AppHeader";
 import type { ExploreTripSettings } from "@/lib/explore";
 import { supabase } from "@/lib/supabase";
-import { normalizeTripCoverImages } from "@/lib/trip-cover";
 import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
 import ExploreSettingsModal from "../components/ExploreSettingsModal";
 import ShareTripCard from "../components/ShareTripCard";
 import TripHeaderCard from "../components/TripHeaderCard";
 import TripVisibilityCard from "../components/TripVisibilityCard";
-
-type Trip = {
-  id: string;
-  title: string;
-  destination: string;
-  area: string;
-  start_date: string;
-  end_date: string;
-  total_cost: number;
-  is_public: boolean;
-  user_id: string;
-  cover_image_url: string | null;
-  cover_image_fit: "cover" | "contain";
-  cover_image_zoom: number;
-  cover_image_position_x: number;
-  cover_image_position_y: number;
-  cover_images: ExploreTripSettings["cover_images"];
-  travel_style: string | null;
-  themes: string[];
-};
-
-type Participant = {
-  id: string;
-  trip_id: string;
-  name: string;
-};
-
-type Expense = {
-  id: string;
-  category: string;
-  title: string;
-  amount: number;
-  participant_id: string | null;
-};
-
-type Member = {
-  id: string;
-  user_id: string;
-  users: { name: string; email: string | null } | null;
-};
+import {
+  normalizeTripDetail,
+  TRIP_DETAIL_SELECT,
+  TRIP_EXPENSE_SELECT,
+  TRIP_MEMBER_SELECT,
+  TRIP_PARTICIPANT_SELECT,
+  type TripDetailTrip,
+  type TripExpense,
+  type TripMember,
+  type TripParticipant,
+} from "../types";
 
 type Props = {
   tripId: string;
   userId: string;
   initialUserName: string;
-  initialTrip: Trip;
-  initialParticipants: Participant[];
-  initialExpenses: Expense[];
-  initialMembers: Member[];
+  initialTrip: TripDetailTrip;
+  initialParticipants: TripParticipant[];
+  initialExpenses: TripExpense[];
+  initialMembers: TripMember[];
 };
 
 export default function TripDetailPresentation({
@@ -75,11 +45,11 @@ export default function TripDetailPresentation({
   initialMembers,
 }: Props) {
   const router = useRouter();
-  const [trip, setTrip] = useState<Trip>(() => normalizeTrip(initialTrip));
+  const [trip, setTrip] = useState<TripDetailTrip>(initialTrip);
   const [participants, setParticipants] =
-    useState<Participant[]>(initialParticipants);
-  const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
-  const [members, setMembers] = useState<Member[]>(initialMembers);
+    useState<TripParticipant[]>(initialParticipants);
+  const [expenses, setExpenses] = useState<TripExpense[]>(initialExpenses);
+  const [members, setMembers] = useState<TripMember[]>(initialMembers);
   const [shareError, setShareError] = useState("");
   const [showExploreSettings, setShowExploreSettings] = useState(false);
 
@@ -92,24 +62,28 @@ export default function TripDetailPresentation({
       { data: participantsData },
       { data: membersData },
     ] = await Promise.all([
-      supabase.from("trips").select("*").eq("id", tripId).single(),
+      supabase
+        .from("trips")
+        .select(TRIP_DETAIL_SELECT)
+        .eq("id", tripId)
+        .single(),
       supabase
         .from("expenses")
-        .select("*")
+        .select(TRIP_EXPENSE_SELECT)
         .eq("trip_id", tripId)
         .order("category"),
       supabase
         .from("participants")
-        .select("*")
+        .select(TRIP_PARTICIPANT_SELECT)
         .eq("trip_id", tripId)
         .order("created_at"),
       supabase
         .from("trip_members")
-        .select("*, users(name, email)")
+        .select(TRIP_MEMBER_SELECT)
         .eq("trip_id", tripId)
         .order("created_at"),
     ]);
-    if (tripData) setTrip(normalizeTrip(tripData as Trip));
+    if (tripData) setTrip(normalizeTripDetail(tripData));
     setExpenses(expensesData ?? []);
     setParticipants(participantsData ?? []);
     setMembers(membersData ?? []);
@@ -284,17 +258,4 @@ export default function TripDetailPresentation({
       )}
     </div>
   );
-}
-
-function normalizeTrip(trip: Trip): Trip {
-  return {
-    ...trip,
-    cover_images: normalizeTripCoverImages(trip.cover_images, {
-      image_url: trip.cover_image_url ?? "",
-      cover_image_fit: trip.cover_image_fit,
-      cover_image_zoom: Number(trip.cover_image_zoom),
-      cover_image_position_x: trip.cover_image_position_x,
-      cover_image_position_y: trip.cover_image_position_y,
-    }),
-  };
 }

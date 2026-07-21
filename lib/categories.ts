@@ -1,12 +1,14 @@
-export type ExpenseCategory = "交通費" | "宿泊" | "食費" | "観光" | "その他";
+import type { Enums } from "@/types/database";
 
-export const CATEGORIES: ExpenseCategory[] = [
+export type ExpenseCategory = Enums<"expense_category">;
+
+export const CATEGORIES = [
   "交通費",
   "宿泊",
   "食費",
   "観光",
   "その他",
-];
+] as const satisfies readonly ExpenseCategory[];
 
 export const CATEGORY_META: Record<
   ExpenseCategory,

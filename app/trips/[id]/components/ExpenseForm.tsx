@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { CATEGORIES, CATEGORY_META } from "@/lib/categories";
-
-type Participant = {
-  id: string;
-  trip_id: string;
-  name: string;
-};
+import {
+  CATEGORIES,
+  CATEGORY_META,
+  type ExpenseCategory,
+} from "@/lib/categories";
+import type { TripParticipant } from "../types";
 
 type Props = {
   tripId: string;
-  participants: Participant[];
+  participants: TripParticipant[];
   onAdded: () => void;
 };
 
@@ -23,8 +22,15 @@ const inputClass =
 const labelClass =
   "text-[0.7rem] font-semibold text-slate-400 uppercase tracking-[0.05em]";
 
+type ExpenseFormState = {
+  category: ExpenseCategory;
+  title: string;
+  amount: string;
+  participant: string;
+};
+
 export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<ExpenseFormState>({
     category: "交通費",
     title: "",
     amount: "",
@@ -77,7 +83,12 @@ export default function ExpenseForm({ tripId, participants, onAdded }: Props) {
             <label className={labelClass}>カテゴリ</label>
             <select
               value={form.category}
-              onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({
+                  ...p,
+                  category: e.target.value as ExpenseCategory,
+                }))
+              }
               className={inputClass}
             >
               {CATEGORIES.map((c) => (

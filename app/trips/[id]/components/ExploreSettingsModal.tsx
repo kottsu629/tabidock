@@ -15,6 +15,7 @@ import {
   getOwnedTripCoverStoragePath,
   MAX_COVER_FILE_SIZE,
   MAX_TRIP_COVER_IMAGES,
+  normalizeCoverImageFit,
   normalizeTripCoverImages,
   TRIP_COVER_BUCKET,
   type CoverImageDisplaySettings,
@@ -294,7 +295,9 @@ export default function ExploreSettingsModal({
         updatedTrip.cover_images,
         {
           image_url: updatedTrip.cover_image_url ?? "",
-          cover_image_fit: updatedTrip.cover_image_fit,
+          cover_image_fit: normalizeCoverImageFit(
+            updatedTrip.cover_image_fit,
+          ),
           cover_image_zoom: Number(updatedTrip.cover_image_zoom),
           cover_image_position_x: updatedTrip.cover_image_position_x,
           cover_image_position_y: updatedTrip.cover_image_position_y,
@@ -327,7 +330,9 @@ export default function ExploreSettingsModal({
       onSaved({
         cover_images: savedCoverImages,
         cover_image_url: updatedTrip.cover_image_url,
-        cover_image_fit: updatedTrip.cover_image_fit,
+        cover_image_fit: normalizeCoverImageFit(
+          updatedTrip.cover_image_fit,
+        ),
         cover_image_zoom: Number(updatedTrip.cover_image_zoom),
         cover_image_position_x: updatedTrip.cover_image_position_x,
         cover_image_position_y: updatedTrip.cover_image_position_y,

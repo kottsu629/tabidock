@@ -15,11 +15,11 @@ export default async function ExploreContainer({ filters }: Props) {
   const [{ data: authData }, { data, error }] = await Promise.all([
     supabase.auth.getUser(),
     supabase.rpc("get_public_trips", {
-      p_min_budget: filters.minBudget,
-      p_max_budget: filters.maxBudget,
-      p_num_people: filters.numPeople,
-      p_theme: filters.theme || null,
-      p_travel_style: filters.travelStyle || null,
+      p_min_budget: filters.minBudget ?? undefined,
+      p_max_budget: filters.maxBudget ?? undefined,
+      p_num_people: filters.numPeople ?? undefined,
+      p_theme: filters.theme || undefined,
+      p_travel_style: filters.travelStyle || undefined,
     }),
   ]);
 
@@ -28,9 +28,7 @@ export default async function ExploreContainer({ filters }: Props) {
     throw new Error("公開旅行の読み込みに失敗しました");
   }
 
-  const trips = normalizePublicTrips((data ?? []) as Parameters<
-    typeof normalizePublicTrips
-  >[0]);
+  const trips = normalizePublicTrips(data ?? []);
 
   return (
     <ExplorePresentation

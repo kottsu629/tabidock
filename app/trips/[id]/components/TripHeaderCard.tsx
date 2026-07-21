@@ -1,29 +1,14 @@
 import SiteIcon from "@/components/SiteIcon";
-
-type Trip = {
-  title: string;
-  destination: string;
-  area: string;
-  start_date: string;
-  end_date: string;
-  total_cost: number;
-};
-
-type Participant = {
-  id: string;
-  trip_id: string;
-  name: string;
-};
-
-type Expense = {
-  amount: number;
-  participant_id: string | null;
-};
+import type {
+  TripDetailTrip,
+  TripExpense,
+  TripParticipant,
+} from "../types";
 
 type Props = {
-  trip: Trip;
-  participants: Participant[];
-  expenses: Expense[];
+  trip: TripDetailTrip;
+  participants: TripParticipant[];
+  expenses: TripExpense[];
 };
 
 export default function TripHeaderCard({

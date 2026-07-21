@@ -8,35 +8,21 @@ import SiteIcon from "@/components/SiteIcon";
 import { supabase } from "@/lib/supabase";
 import {
   getOwnedTripCoverStoragePath,
+  normalizeCoverImageFit,
   normalizeTripCoverImages,
   TRIP_COVER_BUCKET,
 } from "@/lib/trip-cover";
 import NewTripModal from "../components/NewTripModal";
 import TripCard from "../components/TripCard";
-
-type Trip = {
-  id: string;
-  user_id: string;
-  title: string;
-  destination: string;
-  area: string;
-  start_date: string;
-  end_date: string;
-  total_cost: number;
-  is_public: boolean;
-  cover_image_url: string | null;
-  cover_image_fit: "cover" | "contain";
-  cover_image_zoom: number;
-  cover_image_position_x: number;
-  cover_image_position_y: number;
-  cover_images: unknown;
-  participants: { count: number }[];
-};
+import {
+  DASHBOARD_TRIP_SELECT,
+  type DashboardTrip,
+} from "../types";
 
 type Props = {
   userId: string;
   initialUserName: string;
-  initialTrips: Trip[];
+  initialTrips: DashboardTrip[];
 };
 
 export default function DashboardPresentation({
@@ -45,9 +31,9 @@ export default function DashboardPresentation({
   initialTrips,
 }: Props) {
   const router = useRouter();
-  const [trips, setTrips] = useState<Trip[]>(initialTrips);
+  const [trips, setTrips] = useState<DashboardTrip[]>(initialTrips);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<Trip | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<DashboardTrip | null>(null);
   const [deleting, setDeleting] = useState(false);
 
   const fetchTrips = async () => {
@@ -59,7 +45,7 @@ export default function DashboardPresentation({
 
     const tripsQuery = supabase
       .from("trips")
-      .select("*, participants(count)")
+      .select(DASHBOARD_TRIP_SELECT)
       .order("start_date", { ascending: false });
 
     const { data } =
@@ -88,7 +74,9 @@ export default function DashboardPresentation({
         deleteTarget.cover_images,
         {
           image_url: deleteTarget.cover_image_url ?? "",
-          cover_image_fit: deleteTarget.cover_image_fit,
+          cover_image_fit: normalizeCoverImageFit(
+            deleteTarget.cover_image_fit,
+          ),
           cover_image_zoom: Number(deleteTarget.cover_image_zoom),
           cover_image_position_x: deleteTarget.cover_image_position_x,
           cover_image_position_y: deleteTarget.cover_image_position_y,

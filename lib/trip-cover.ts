@@ -28,6 +28,12 @@ export const DEFAULT_COVER_IMAGE_DISPLAY: CoverImageDisplaySettings = {
 
 export const MAX_TRIP_COVER_IMAGES = 5;
 
+export function normalizeCoverImageFit(
+  value: unknown,
+): CoverImageDisplaySettings["cover_image_fit"] {
+  return value === "contain" ? "contain" : "cover";
+}
+
 export function getSafeCoverImageUrl(url: string | null) {
   if (!url) return null;
 
@@ -57,7 +63,6 @@ export function normalizeTripCoverImages(
         );
         if (!imageUrl) return [];
 
-        const fit = candidate.cover_image_fit;
         const zoom = Number(candidate.cover_image_zoom);
         const positionX = Number(candidate.cover_image_position_x);
         const positionY = Number(candidate.cover_image_position_y);
@@ -65,7 +70,9 @@ export function normalizeTripCoverImages(
         return [
           {
             image_url: imageUrl,
-            cover_image_fit: fit === "contain" ? "contain" : "cover",
+            cover_image_fit: normalizeCoverImageFit(
+              candidate.cover_image_fit,
+            ),
             cover_image_zoom: Number.isFinite(zoom)
               ? Math.min(2, Math.max(1, zoom))
               : DEFAULT_COVER_IMAGE_DISPLAY.cover_image_zoom,

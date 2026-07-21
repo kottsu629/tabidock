@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Modal from "@/components/Modal";
+import type { TablesInsert } from "@/types/database";
 
 type Props = {
   userId: string;
@@ -10,14 +11,17 @@ type Props = {
   onCreated: () => void;
 };
 
-type TripForm = {
-  title: string;
-  destination: string;
-  area: string;
-  start_date: string;
-  end_date: string;
-  is_public: boolean;
-};
+type TripForm = Required<
+  Pick<
+    TablesInsert<"trips">,
+    | "title"
+    | "destination"
+    | "area"
+    | "start_date"
+    | "end_date"
+    | "is_public"
+  >
+>;
 
 const inputClass =
   "block w-full min-w-0 max-w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition";
@@ -68,7 +72,7 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
         ...form,
         user_id: userId,
       })
-      .select()
+      .select("id")
       .single();
     if (error) {
       setLoading(false);

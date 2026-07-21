@@ -1,29 +1,11 @@
 import Link from "next/link";
 import SiteIcon from "@/components/SiteIcon";
-
-type Trip = {
-  id: string;
-  user_id: string;
-  title: string;
-  destination: string;
-  area: string;
-  start_date: string;
-  end_date: string;
-  total_cost: number;
-  is_public: boolean;
-  cover_image_url: string | null;
-  cover_image_fit: "cover" | "contain";
-  cover_image_zoom: number;
-  cover_image_position_x: number;
-  cover_image_position_y: number;
-  cover_images: unknown;
-  participants: { count: number }[];
-};
+import type { DashboardTrip } from "../types";
 
 type Props = {
-  trip: Trip;
+  trip: DashboardTrip;
   userId: string;
-  onDelete: (trip: Trip) => void;
+  onDelete: (trip: DashboardTrip) => void;
 };
 
 export default function TripCard({ trip, userId, onDelete }: Props) {

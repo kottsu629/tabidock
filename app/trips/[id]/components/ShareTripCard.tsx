@@ -1,15 +1,10 @@
 "use client";
 
 import { useState } from "react";
-
-type Member = {
-  id: string;
-  user_id: string;
-  users: { name: string; email: string | null } | null;
-};
+import type { TripMember } from "../types";
 
 type Props = {
-  members: Member[];
+  members: TripMember[];
   isOwner: boolean;
   shareError: string;
   onShare: (email: string) => Promise<void>;

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { DASHBOARD_TRIP_SELECT } from "../types";
 import DashboardPresentation from "./presentation";
 
 export default async function DashboardContainer() {
@@ -17,7 +18,7 @@ export default async function DashboardContainer() {
   const memberTripIds = (memberRows ?? []).map((row) => row.trip_id);
   const tripsQuery = supabase
     .from("trips")
-    .select("*, participants(count)")
+    .select(DASHBOARD_TRIP_SELECT)
     .order("start_date", { ascending: false });
 
   const { data: trips } =
