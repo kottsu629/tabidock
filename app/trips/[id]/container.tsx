@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
+import type { ExploreTripSettings } from "@/lib/explore";
+import { normalizeTripCoverImages } from "@/lib/trip-cover";
 import TripDetailPresentation from "./presentation";
 
 type Trip = {
@@ -16,6 +18,14 @@ type Trip = {
   total_cost: number;
   is_public: boolean;
   user_id: string;
+  cover_image_url: string | null;
+  cover_image_fit: "cover" | "contain";
+  cover_image_zoom: number;
+  cover_image_position_x: number;
+  cover_image_position_y: number;
+  cover_images: ExploreTripSettings["cover_images"];
+  travel_style: string | null;
+  themes: string[];
 };
 
 type Participant = {
@@ -58,12 +68,13 @@ export default function TripDetailContainer({
   initialMembers,
 }: Props) {
   const router = useRouter();
-  const [trip, setTrip] = useState<Trip>(initialTrip);
+  const [trip, setTrip] = useState<Trip>(() => normalizeTrip(initialTrip));
   const [participants, setParticipants] =
     useState<Participant[]>(initialParticipants);
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
   const [members, setMembers] = useState<Member[]>(initialMembers);
   const [shareError, setShareError] = useState("");
+  const [showExploreSettings, setShowExploreSettings] = useState(false);
 
   const isOwner = trip.user_id === userId;
 
@@ -91,7 +102,7 @@ export default function TripDetailContainer({
         .eq("trip_id", tripId)
         .order("created_at"),
     ]);
-    if (tripData) setTrip(tripData);
+    if (tripData) setTrip(normalizeTrip(tripData as Trip));
     setExpenses(expensesData ?? []);
     setParticipants(participantsData ?? []);
     setMembers(membersData ?? []);
@@ -191,9 +202,17 @@ export default function TripDetailContainer({
     await refresh();
   };
 
+  const handleExploreSettingsSaved = (settings: ExploreTripSettings) => {
+    setTrip((currentTrip) => ({
+      ...currentTrip,
+      ...settings,
+    }));
+  };
+
   return (
     <TripDetailPresentation
       tripId={tripId}
+      userId={userId}
       userName={initialUserName}
       trip={trip}
       participants={participants}
@@ -201,11 +220,28 @@ export default function TripDetailContainer({
       members={members}
       isOwner={isOwner}
       shareError={shareError}
+      showExploreSettings={showExploreSettings}
       onLogout={handleLogout}
+      onOpenExploreSettings={() => setShowExploreSettings(true)}
+      onCloseExploreSettings={() => setShowExploreSettings(false)}
+      onExploreSettingsSaved={handleExploreSettingsSaved}
       onExpenseAdded={refresh}
       onDeleteExpense={handleDeleteExpense}
       onShare={handleShare}
       onRemoveMember={handleRemoveMember}
     />
   );
+}
+
+function normalizeTrip(trip: Trip): Trip {
+  return {
+    ...trip,
+    cover_images: normalizeTripCoverImages(trip.cover_images, {
+      image_url: trip.cover_image_url ?? "",
+      cover_image_fit: trip.cover_image_fit,
+      cover_image_zoom: Number(trip.cover_image_zoom),
+      cover_image_position_x: trip.cover_image_position_x,
+      cover_image_position_y: trip.cover_image_position_y,
+    }),
+  };
 }

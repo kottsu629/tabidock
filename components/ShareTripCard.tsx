@@ -38,7 +38,9 @@ export default function ShareTripCard({
 
   return (
     <div className="bg-[#fffdf8] rounded-2xl border border-slate-200 p-6 mb-5">
-      <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">共有</h2>
+      <h2 className="text-[0.9rem] font-bold text-slate-900 mb-4">
+        メンバー共有
+      </h2>
 
       {members.length > 0 && (
         <div className="space-y-2 mb-4">
@@ -70,7 +72,7 @@ export default function ShareTripCard({
             required
             autoComplete="off"
             name="share-email"
-            placeholder="メールアドレスで共有"
+            placeholder="メールアドレスで招待"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="flex-1 border border-slate-200 rounded-[10px] px-[14px] py-[9px] text-sm text-slate-900 bg-slate-50 outline-none"

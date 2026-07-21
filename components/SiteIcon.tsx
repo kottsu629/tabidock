@@ -12,7 +12,8 @@ export type SiteIconName =
   | "clipboard"
   | "map"
   | "card"
-  | "globe";
+  | "globe"
+  | "edit";
 
 type Props = SVGProps<SVGSVGElement> & {
   name: SiteIconName;
@@ -31,6 +32,7 @@ const paths: Record<SiteIconName, ReactNode> = {
   map: <><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" /><path d="M9 3v15M15 6v15" /></>,
   card: <><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" /></>,
   globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></>,
+  edit: <><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /></>,
 };
 
 export default function SiteIcon({ name, className = "", ...props }: Props) {

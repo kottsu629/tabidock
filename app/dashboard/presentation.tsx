@@ -14,6 +14,12 @@ type Trip = {
   end_date: string;
   total_cost: number;
   is_public: boolean;
+  cover_image_url: string | null;
+  cover_image_fit: "cover" | "contain";
+  cover_image_zoom: number;
+  cover_image_position_x: number;
+  cover_image_position_y: number;
+  cover_images: unknown;
   participants: { count: number }[];
 };
 

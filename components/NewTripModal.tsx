@@ -10,25 +10,34 @@ type Props = {
   onCreated: () => void;
 };
 
+type TripForm = {
+  title: string;
+  destination: string;
+  area: string;
+  start_date: string;
+  end_date: string;
+  is_public: boolean;
+};
+
 const inputClass =
   "block w-full min-w-0 max-w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition";
 const labelClass =
   "block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5";
 
 export default function NewTripModal({ userId, onClose, onCreated }: Props) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<TripForm>({
     title: "",
     destination: "",
     area: "",
     start_date: "",
     end_date: "",
-    is_public: true,
+    is_public: false,
   });
   const [participantNames, setParticipantNames] = useState([""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const set = (key: string, value: string | number | boolean) =>
+  const set = <Key extends keyof TripForm>(key: Key, value: TripForm[Key]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
   const setParticipantName = (index: number, value: string) =>
@@ -191,6 +200,30 @@ export default function NewTripModal({ userId, onClose, onCreated }: Props) {
             + 参加者を追加
           </button>
         </div>
+
+        <label className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 cursor-pointer">
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold text-slate-800">
+              Exploreに公開する
+            </span>
+            <span className="block text-[0.75rem] leading-relaxed text-slate-500 mt-0.5">
+              未ログインのユーザーを含む、すべての人が閲覧できます
+            </span>
+            <span className="block text-[0.7rem] leading-relaxed text-slate-400 mt-1">
+              カバー画像やテーマは作成後の旅行詳細から設定できます
+            </span>
+          </span>
+          <span className="relative shrink-0">
+            <input
+              type="checkbox"
+              checked={form.is_public}
+              onChange={(e) => set("is_public", e.target.checked)}
+              className="peer sr-only"
+            />
+            <span className="block h-6 w-11 rounded-full bg-slate-300 transition-colors peer-checked:bg-indigo-500 peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-300 peer-focus-visible:ring-offset-2" />
+            <span className="absolute left-1 top-1 size-4 rounded-full bg-white shadow-sm transition-transform peer-checked:translate-x-5" />
+          </span>
+        </label>
 
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">

@@ -25,6 +25,12 @@ export default function LandingPresentation() {
             </span>
           </div>
           <div className="flex gap-2 sm:gap-2.5 items-center">
+            <Link
+              href="/explore"
+              className="hidden sm:inline-flex whitespace-nowrap text-sm font-medium text-slate-600 py-2 px-2"
+            >
+              Explore
+            </Link>
             <Link href="/login" className={navLinkClass}>
               ログイン
             </Link>

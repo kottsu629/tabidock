@@ -3,6 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import {
+  getOwnedTripCoverStoragePath,
+  normalizeTripCoverImages,
+  TRIP_COVER_BUCKET,
+} from "@/lib/trip-cover";
 import DashboardPresentation from "./presentation";
 
 type Trip = {
@@ -15,6 +20,12 @@ type Trip = {
   end_date: string;
   total_cost: number;
   is_public: boolean;
+  cover_image_url: string | null;
+  cover_image_fit: "cover" | "contain";
+  cover_image_zoom: number;
+  cover_image_position_x: number;
+  cover_image_position_y: number;
+  cover_images: unknown;
   participants: { count: number }[];
 };
 
@@ -62,7 +73,34 @@ export default function DashboardContainer({
   const handleConfirmDelete = async () => {
     if (!deleteTarget) return;
     setDeleting(true);
-    await supabase.from("trips").delete().eq("id", deleteTarget.id);
+    const { error } = await supabase
+      .from("trips")
+      .delete()
+      .eq("id", deleteTarget.id);
+    if (!error) {
+      const coverStoragePaths = normalizeTripCoverImages(
+        deleteTarget.cover_images,
+        {
+          image_url: deleteTarget.cover_image_url ?? "",
+          cover_image_fit: deleteTarget.cover_image_fit,
+          cover_image_zoom: Number(deleteTarget.cover_image_zoom),
+          cover_image_position_x: deleteTarget.cover_image_position_x,
+          cover_image_position_y: deleteTarget.cover_image_position_y,
+        },
+      ).flatMap((image) => {
+        const path = getOwnedTripCoverStoragePath(
+          image.image_url,
+          userId,
+          deleteTarget.id,
+        );
+        return path ? [path] : [];
+      });
+      if (coverStoragePaths.length > 0) {
+        await supabase.storage
+          .from(TRIP_COVER_BUCKET)
+          .remove(Array.from(new Set(coverStoragePaths)));
+      }
+    }
     setDeleting(false);
     setDeleteTarget(null);
     await fetchTrips();

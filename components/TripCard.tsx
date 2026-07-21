@@ -11,6 +11,12 @@ type Trip = {
   end_date: string;
   total_cost: number;
   is_public: boolean;
+  cover_image_url: string | null;
+  cover_image_fit: "cover" | "contain";
+  cover_image_zoom: number;
+  cover_image_position_x: number;
+  cover_image_position_y: number;
+  cover_images: unknown;
   participants: { count: number }[];
 };
 
@@ -28,10 +34,19 @@ export default function TripCard({ trip, userId, onDelete }: Props) {
       <Link href={`/trips/${trip.id}`} className="no-underline block">
         <div className="h-1 bg-indigo-500" />
         <div className="p-5">
-          <h2 className="text-base font-bold text-slate-900 mb-1 flex items-center gap-1.5">
-            {trip.title}
+          <h2 className="text-base font-bold text-slate-900 mb-1 flex flex-wrap items-center gap-1.5">
+            <span>{trip.title}</span>
+            <span
+              className={`shrink-0 text-[0.65rem] font-semibold rounded-[6px] px-1.5 py-0.5 ${
+                trip.is_public
+                  ? "text-indigo-600 bg-indigo-50"
+                  : "text-slate-500 bg-slate-100"
+              }`}
+            >
+              {trip.is_public ? "公開" : "非公開"}
+            </span>
             {!isOwner && (
-              <span className="text-[0.65rem] font-semibold text-indigo-500 bg-indigo-50 rounded-[6px] px-1.5 py-0.5">
+              <span className="shrink-0 text-[0.65rem] font-semibold text-violet-600 bg-orange-50 rounded-[6px] px-1.5 py-0.5">
                 共有中
               </span>
             )}
