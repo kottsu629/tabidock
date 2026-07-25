@@ -1,28 +1,15 @@
-import { CATEGORIES, CATEGORY_META, ExpenseCategory } from "@/lib/categories";
-import SiteIcon from "./SiteIcon";
-
-type Expense = {
-  id: string;
-  category: string;
-  title: string;
-  amount: number;
-  participant_id: string | null;
-};
-
-type Participant = {
-  id: string;
-  trip_id: string;
-  name: string;
-};
+import { CATEGORIES, CATEGORY_META } from "@/lib/categories";
+import SiteIcon from "@/components/SiteIcon";
+import type { TripExpense, TripParticipant } from "../types";
 
 type Props = {
-  expenses: Expense[];
-  participants: Participant[];
+  expenses: TripExpense[];
+  participants: TripParticipant[];
   onDelete: (id: string) => void;
 };
 
 export default function ExpenseList({ expenses, participants, onDelete }: Props) {
-  const grouped = CATEGORIES.reduce<Record<string, Expense[]>>((acc, cat) => {
+  const grouped = CATEGORIES.reduce<Record<string, TripExpense[]>>((acc, cat) => {
     acc[cat] = expenses.filter((e) => e.category === cat);
     return acc;
   }, {});
@@ -56,10 +43,10 @@ export default function ExpenseList({ expenses, participants, onDelete }: Props)
                 >
                   <span
                     className="inline-block w-2 h-2 rounded-full shrink-0"
-                    style={{ backgroundColor: CATEGORY_META[cat as ExpenseCategory].color }}
+                    style={{ backgroundColor: CATEGORY_META[cat].color }}
                   />
                   <span className="text-[0.78rem] font-semibold text-slate-500">
-                    {CATEGORY_META[cat as ExpenseCategory].emoji} {cat}
+                    {CATEGORY_META[cat].emoji} {cat}
                   </span>
                   <span className="ml-auto text-[0.78rem] font-semibold text-slate-500">
                     ¥{grouped[cat].reduce((s, e) => s + e.amount, 0).toLocaleString()}

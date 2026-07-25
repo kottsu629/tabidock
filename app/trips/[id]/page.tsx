@@ -1,6 +1,13 @@
-import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
-import TripDetailContainer from "./container";
+import type { Metadata } from "next";
+import TripDetailContainer from "./containers/container";
+
+export const metadata: Metadata = {
+  title: "旅行詳細",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function TripDetailPage({
   params,
@@ -8,40 +15,5 @@ export default async function TripDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const [{ data: userData }, { data: trip }, { data: participants }, { data: expenses }, { data: members }] =
-    await Promise.all([
-      supabase.from("users").select("name").eq("id", user.id).single(),
-      supabase.from("trips").select("*").eq("id", id).single(),
-      supabase
-        .from("participants")
-        .select("*")
-        .eq("trip_id", id)
-        .order("created_at"),
-      supabase.from("expenses").select("*").eq("trip_id", id).order("category"),
-      supabase
-        .from("trip_members")
-        .select("*, users(name, email)")
-        .eq("trip_id", id)
-        .order("created_at"),
-    ]);
-
-  if (!trip) redirect("/dashboard");
-
-  return (
-    <TripDetailContainer
-      tripId={id}
-      userId={user.id}
-      initialUserName={userData?.name ?? ""}
-      initialTrip={trip}
-      initialParticipants={participants ?? []}
-      initialExpenses={expenses ?? []}
-      initialMembers={members ?? []}
-    />
-  );
+  return <TripDetailContainer tripId={id} />;
 }

@@ -1,8 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import brandIcon from "@/app/icon.png";
+import SiteHeader from "@/components/SiteHeader";
 
 type Props = {
   userName?: string;
@@ -11,24 +9,10 @@ type Props = {
 
 export default function AppHeader({ userName, onLogout }: Props) {
   return (
-    <header className="bg-[#fffdf8] border-b border-slate-200">
-      <div className="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between">
-        <Link href="/dashboard" className="no-underline">
-          <div className="flex items-center gap-2">
-            <Image
-              src={brandIcon}
-              alt=""
-              width={24}
-              height={24}
-              className="shrink-0"
-            />
-            <span className="font-bold text-[1.1rem] text-slate-900 tracking-[-0.02em]">
-              TabiDock
-            </span>
-          </div>
-        </Link>
-
-        {userName && onLogout && (
+    <SiteHeader
+      brandHref="/dashboard"
+      actions={
+        userName && onLogout ? (
           <div className="flex items-center gap-4">
             <span className="text-sm text-slate-500">{userName}さん</span>
             <button
@@ -38,8 +22,8 @@ export default function AppHeader({ userName, onLogout }: Props) {
               ログアウト
             </button>
           </div>
-        )}
-      </div>
-    </header>
+        ) : null
+      }
+    />
   );
 }

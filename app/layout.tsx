@@ -14,8 +14,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tabidock.com"),
-  title: "TabiDock | 旅行計画・旅行費用管理アプリ",
-  description: "旅行計画・旅程・旅行費用を一括管理できる旅行管理アプリ",
+  applicationName: "TabiDock（タビドック）",
+  title: {
+    default: "TabiDock（タビドック）｜旅行計画・費用管理・共有をひとつに",
+    template: "%s｜TabiDock（タビドック）",
+  },
+  description:
+    "TabiDock（タビドック）は、旅行の日程・行き先・参加者・費用をひとつにまとめて管理できる旅行管理アプリです。メンバーとの共同管理、費用の自動集計、公開旅行の閲覧・掲載にも対応しています。",
+  creator: "TabiDock",
+  publisher: "TabiDock",
+  verification: {
+    google: "k-3NYxB6YzWw1VmNfx0q1_ktBW6zYR57F2iLrHNybHY",
+  },
 };
 
 export default function RootLayout({
@@ -25,15 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ja"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <meta
-          name="google-site-verification"
-          content="k-3NYxB6YzWw1VmNfx0q1_ktBW6zYR57F2iLrHNybHY"
-        />
-      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
